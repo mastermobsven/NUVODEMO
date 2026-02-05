@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="DEMO" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?display=swap&family=Bebas+Neue:ital,wght@0,400;1,400&family=Belleza:ital,wght@0,400;1,400"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="./css/global.css" rel="stylesheet" type="text/css" />
+    <title>SYSTEM ID TIMER</title>
+
+    <style>
+      .text-component.instance-4 {
+        text-align: left;
+        max-width: 40rem;
+        margin-left: var(--margin-left);
+        margin-right: var(--margin-right);
+        --margin-left: 0;
+        --margin-right: auto;
+        color: #f0e6e6;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.325rem;
+        width: calc(100% + 0.325rem);
+        font-size: 2em;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      .text-component.instance-4 a {
+        text-decoration: underline;
+      }
+
+      .text-component.instance-4 a:hover {
+        text-decoration: none;
+      }
+
+      .text-component.instance-4 span.p:nth-child(n + 2) {
+        margin-top: 1rem;
+      }
+
+      .text-component.instance-3:not(:first-child) {
+        margin-top: 2rem !important;
+      }
+
+      .text-component.instance-3:not(:last-child) {
+        margin-bottom: 2rem !important;
+      }
+
+      .text-component.instance-3 {
+        text-align: left;
+        max-width: 40rem;
+        margin-left: var(--margin-left);
+        margin-right: var(--margin-right);
+        --margin-left: 0;
+        --margin-right: auto;
+        color: #f0e6e6;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.325rem;
+        width: calc(100% + 0.325rem);
+        font-size: 1em;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      .text-component.instance-3 a {
+        text-decoration: underline;
+      }
+
+      .text-component.instance-3 a:hover {
+        text-decoration: none;
+      }
+
+      .text-component.instance-3 span.p:nth-child(n + 2) {
+        margin-top: 1rem;
+      }
+
+      .text-component.instance-2:not(:first-child) {
+        margin-top: 1rem !important;
+      }
+
+      .text-component.instance-2:not(:last-child) {
+        margin-bottom: 1rem !important;
+      }
+
+      .text-component.instance-2 {
+        text-align: left;
+        max-width: 40rem;
+        margin-left: var(--margin-left);
+        margin-right: var(--margin-right);
+        --margin-left: 0;
+        --margin-right: auto;
+        color: #f0e6e6;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.325rem;
+        width: calc(100% + 0.325rem);
+        font-size: 1em;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      .text-component.instance-2 a {
+        text-decoration: underline;
+      }
+
+      .text-component.instance-2 a:hover {
+        text-decoration: none;
+      }
+
+      .text-component.instance-2 span.p:nth-child(n + 2) {
+        margin-top: 1rem;
+      }
+
+      .text-component.instance-1 {
+        text-align: left;
+        max-width: 40rem;
+        margin-left: var(--margin-left);
+        margin-right: var(--margin-right);
+        --margin-left: 0;
+        --margin-right: auto;
+        color: #e3f59d;
+        font-family: "Belleza", sans-serif;
+        letter-spacing: 0.325rem;
+        width: calc(100% + 0.325rem);
+        font-size: 1em;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      .text-component.instance-1 a {
+        text-decoration: underline;
+      }
+
+      .text-component.instance-1 a:hover {
+        text-decoration: none;
+      }
+
+      .text-component.instance-1 span.p:nth-child(n + 2) {
+        margin-top: 1rem;
+      }
+
+      .buttons-component {
+        cursor: default;
+        display: flex;
+        justify-content: var(--flex-alignment);
+        letter-spacing: 0;
+        padding: 0;
+      }
+
+      .buttons-component > li {
+        max-width: 100%;
+        text-align: var(--alignment);
+      }
+
+      .buttons-component > li > a {
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+
+      .buttons-component.instance-1 {
+        gap: 0.75rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .buttons-component.instance-1 > li > a {
+        display: inline-block;
+        width: auto;
+        height: 2rem;
+        line-height: 2rem;
+        padding: 0 1rem;
+        vertical-align: middle;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.325rem;
+        padding-left: calc(0.325rem + 1rem);
+        font-size: 1em;
+        font-weight: 400;
+        border-radius: 0rem;
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background-color: #000000;
+        color: #ffffff;
+        transition:
+          color 0.25s ease,
+          background-color 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+      .buttons-component.instance-1 > li > a.n01:hover {
+        background-color: #fa8282 !important;
+      }
+
+      @media (max-width: 1920px) {
+      }
+
+      @media (max-width: 1680px) {
+        html {
+          font-size: 13pt;
+        }
+      }
+
+      @media (max-width: 1280px) {
+        html {
+          font-size: 13pt;
+        }
+      }
+
+      @media (max-width: 1024px) {
+      }
+
+      @media (max-width: 980px) {
+        html {
+          font-size: 11pt;
+        }
+      }
+
+      @media (max-width: 736px) {
+        html {
+          font-size: 11pt;
+        }
+
+        .site-main > .inner {
+          --padding-horizontal: 2rem;
+          --padding-vertical: 3rem;
+          --spacing: 0.75rem;
+        }
+
+        .text-component.instance-4 {
+          letter-spacing: 0.284375rem;
+          width: calc(100% + 0.284375rem);
+          font-size: 2em;
+          line-height: 1.5;
+        }
+
+        .text-component.instance-3:not(:first-child) {
+          margin-top: 1.5rem !important;
+        }
+
+        .text-component.instance-3:not(:last-child) {
+          margin-bottom: 1.5rem !important;
+        }
+
+        .text-component.instance-3 {
+          letter-spacing: 0.284375rem;
+          width: calc(100% + 0.284375rem);
+          font-size: 1em;
+          line-height: 1.5;
+        }
+
+        .text-component.instance-2:not(:first-child) {
+          margin-top: 0.75rem !important;
+        }
+
+        .text-component.instance-2:not(:last-child) {
+          margin-bottom: 0.75rem !important;
+        }
+
+        .text-component.instance-2 {
+          letter-spacing: 0.284375rem;
+          width: calc(100% + 0.284375rem);
+          font-size: 1em;
+          line-height: 1.5;
+        }
+
+        .text-component.instance-1 {
+          letter-spacing: 0.284375rem;
+          width: calc(100% + 0.284375rem);
+          font-size: 1em;
+          line-height: 1.5;
+        }
+
+        .buttons-component.instance-1 {
+          gap: 0.75rem;
+        }
+
+        .buttons-component.instance-1 > li > a {
+          letter-spacing: 0.325rem;
+          padding-left: calc(0.325rem + 1rem);
+          font-size: 1em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .site-main > .inner {
+          --spacing: 0.65625rem;
+        }
+
+        .buttons-component.instance-1 {
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+
+        .buttons-component.instance-1 > li > a {
+          max-width: 32rem;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .site-main > .inner {
+          --padding-horizontal: 1.5rem;
+          --padding-vertical: 2.25rem;
+          --spacing: 0.5625rem;
+        }
+
+        .text-component.instance-4 {
+          font-size: 1.5em;
+        }
+
+        .text-component.instance-3 {
+          font-size: 1em;
+        }
+
+        .text-component.instance-2 {
+          font-size: 1em;
+        }
+
+        .text-component.instance-1 {
+          font-size: 1em;
+        }
+
+        .buttons-component.instance-1 {
+          gap: 0.5625rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-main">
+        <div class="inner">
+          <h1 id="text04" class="text-component instance-4">
+            PHRASE WINDOW CLOSED
+          </h1>
+          <h1 id="text03" class="text-component instance-3">
+            NEXT PHRASE AVAILABLE IN:
+          </h1>
+          <ul id="buttons01" class="buttons-component instance-1">
+            <li>
+              <a href="https://systemdemo5.carrd.co" class="n01" role="button"
+                >00:38:12</a
+              >
+            </li>
+          </ul>
+          <h1 id="text02" class="text-component instance-2">
+            THIS WINDOW OPENS AUTOMATICALLY.
+          </h1>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
