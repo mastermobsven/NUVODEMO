@@ -1,10 +1,5 @@
-/**
- * Generates a unique phrase composed of a random number and a word.
- * @param length - The number of digits for the numeric prefix.
- * @returns A string like "8291apple"
- */
-export function generateUniquePhrase(length: number = 4): string {
-  const words: string[] = [
+export function generateUniquePhrase(length = 4) {
+  const words = [
     "flower", "mountain", "river", "cloud", "ocean", 
     "forest", "desert", "bridge", "starlight", "garden"
   ];
@@ -20,6 +15,6 @@ export function generateUniquePhrase(length: number = 4): string {
   return `${randomNumber}${randomWord}`;
 }
 
-export function generateUUIDv4(): string {
+export function generateUUIDv4() {
   return crypto.randomUUID();
 }

@@ -386,9 +386,9 @@
       </div>
     </div>
 
-    <script>
-      import { generateUniquePhrase } from "@/lib/generators";
-      import { retrieveFromStorage, storeInStorage } from "@/lib/use-storage";
+    <script type="module">
+      import { generateUniquePhrase } from "/js/generators.js";
+      import { retrieveFromStorage, storeInStorage } from "/js/use-storage.js";
       const phraseStorageKey = "uniquePhrase";
       const phraseButton = document.getElementById("phrase");
       let uniquePhrase = retrieveFromStorage("uniquePhrase");

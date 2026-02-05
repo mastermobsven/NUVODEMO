@@ -2,7 +2,7 @@
 import { State, stateMachine } from "./state-machine";
 
 // Explicit Map: routee = state
-export const ROUTE_STATE_MAP: Record<string, State> = {
+export const ROUTE_STATE_MAP = {
   "/": State.PHRASE_ISSUED,
   "/page2": State.QUESTIONS,
   "/page3": State.SUBMIT_PHRASE,
@@ -12,11 +12,7 @@ export const ROUTE_STATE_MAP: Record<string, State> = {
   "/page7": State.DEMO_WALL,
 };
 
-export type RouteAccessResult =
-  | { allowed: true }
-  | { allowed: false; reason: "INVALID_ROUTE" | "INVALID_STATE" };
-
-export function canAccessRoute(pathname: string): RouteAccessResult {
+export function canAccessRoute(pathname) {
   const expectedState = ROUTE_STATE_MAP[pathname];
 
   // Ruta no definida en Carrd
