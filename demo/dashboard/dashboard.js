@@ -1,4 +1,4 @@
-const PASSWORD = "1234"; // ← replace or remove when using real auth
+const PASSWORD = "1234";
 
 const loginScreen = document.getElementById("login-screen");
 const dashboardScreen = document.getElementById("dashboard-screen");
@@ -11,7 +11,6 @@ loginBtn.addEventListener("click", () => {
     loginScreen.classList.add("hidden");
     dashboardScreen.classList.remove("hidden");
     
-    // Llamadas independientes
     loadMetrics();
     loadFeedback();
   } else {
@@ -23,10 +22,6 @@ loginBtn.addEventListener("click", () => {
  * METRICS LOGIC
  */
 async function loadMetrics() {
-  /**
-   * 🔴 REPLACE THIS FUNCTION
-   * This must read from your backend aggregate counts.
-   */
   const metrics = await fetchMetricsFromBackend();
 
   document.getElementById("total-visitors").textContent = metrics.totalVisitors;
@@ -39,7 +34,6 @@ async function loadMetrics() {
 }
 
 async function fetchMetricsFromBackend() {
-  // Simulación de respuesta de métricas
   return {
     totalVisitors: 0,
     phrasesGenerated: 0,
@@ -52,7 +46,7 @@ async function fetchMetricsFromBackend() {
 }
 
 /**
- * FEEDBACK LOGIC (New Section)
+ * FEEDBACK LOGIC
  */
 async function loadFeedback() {
   const feedbackContainer = document.getElementById("feedback-container");
@@ -67,19 +61,13 @@ async function loadFeedback() {
 }
 
 async function fetchFeedbackFromBackend() {
-  /**
-   * 🔴 REPLACE THIS WITH YOUR FIREBASE/API FETCH
-   * Ejemplo: const querySnapshot = await getDocs(collection(db, "visitors"));
-   */
-  
-  // Datos de ejemplo basados en tu captura de Firestore
   return [
     {
       id: "e4c5f5a2-c2bc-4d63-b2d9-e2d875efd102",
       demoCompleted: true,
       feedback: {
         feelings: ["CURIOUS", "FRUSTRATED"],
-        notes: "bla bla",
+        notes: "bla bla bla",
         systemIdea: "Nothing",
         wouldRetry: "NO"
       }
@@ -135,16 +123,23 @@ function renderFeedbackList(items) {
       : "";
 
     card.innerHTML = `
-      <div>
-        <span class="feedback-id">REF_ID: ${item.id.slice(0, 13)}</span>
+      <div class="card-header">
+        <span class="feedback-id">REF_ID: ${item.id.slice(0, 20)}...</span>
         <div class="feelings-container">
           ${feelingsHtml}
         </div>
-        <div class="feedback-text">"${item.feedback.notes || 'No comments left.'}"</div>
       </div>
+
+      <div class="feedback-body">
+        <label class="content-label">User Notes</label>
+        <div class="feedback-text">"${item.feedback.notes || 'No comments left.'}"</div>
+        
+        <label class="content-label">System Idea</label>
+        <div class="feedback-text idea-text">"${item.feedback.systemIdea || 'No ideas provided.'}"</div>
+      </div>
+
       <div class="feedback-meta">
-        <span>Retry: <strong>${item.feedback.wouldRetry}</strong></span>
-        <span>Idea: <strong>${item.feedback.systemIdea || 'None'}</strong></span>
+        <span>Would Retry: <strong>${item.feedback.wouldRetry}</strong></span>
       </div>
     `;
     
