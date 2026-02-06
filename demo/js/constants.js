@@ -70,6 +70,6 @@ export const QA_SET = [
   ["What should I do next?", "Continue."],
 ];
 
-export const COOLDOWN_MS = 60 * 3 * 1000; // 60 minutes
+export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
 
 export const SUCCESS_PROBABILITY = 1
