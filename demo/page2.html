@@ -513,12 +513,12 @@
     </div>
 
     <script type="module">
-      import {QA_SET} from "/js/questions-selection.js"
-      import {stateMachine, State, ROUTE_STATE_MAP} from "/js/state-machine.js"
+      import {stateMachine} from "/js/state-machine.js"
+      import {State, ROUTE_STATE_MAP, QA_SET} from "/js/constants.js"
 
       // validate questions limit
       if(stateMachine.getQuestionsCount() >= 3){
-        window.location.href = ROUTE_STATE_MAP[State.LIMIT_REACHED]
+        stateMachine.transitionTo(State.LIMIT_REACHED)
       }
 
       const select = document.getElementById("questionSelect");
@@ -540,7 +540,7 @@
 
         // validate questions limit
         if(stateMachine.getQuestionsCount() >= 3){
-          window.location.href = ROUTE_STATE_MAP[State.LIMIT_REACHED]
+          stateMachine.transitionTo(State.LIMIT_REACHED)
         }
       });
     </script>

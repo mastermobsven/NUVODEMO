@@ -1,58 +1,20 @@
 import { retrieveFromStorage, storeInStorage } from "./use-storage.js";
 import { generateUniquePhrase, generateUUIDv4 } from "./generators.js";
-
-export const State = {
-  PHRASE_ISSUED: "PHRASE_ISSUED",
-  QUESTIONS: "QUESTIONS",
-  LIMIT_REACHED: "LIMIT_REACHED",
-  SUBMIT_PHRASE: "SUBMIT_PHRASE",
-  SUCCESS: "SUCCESS",
-  FAILURE: "FAILURE",
-  TRANSFER_PORTAL: "TRANSFER_PORTAL",
-  DEMO_WALL: "DEMO_WALL",
-};
-
-const TRANSITIONS = {
-  [State.PHRASE_ISSUED]: [State.QUESTIONS, State.SUBMIT_PHRASE],
-
-  [State.QUESTIONS]: [
-    State.QUESTIONS, // keep asking
-    State.LIMIT_REACHED,
-    State.SUBMIT_PHRASE,
-  ],
-
-  [State.LIMIT_REACHED]: [State.SUBMIT_PHRASE],
-
-  [State.SUBMIT_PHRASE]: [State.SUCCESS, State.FAILURE],
-
-  [State.FAILURE]: [State.TRANSFER_PORTAL],
-
-  [State.TRANSFER_PORTAL]: [State.DEMO_WALL],
-
-  [State.SUCCESS]: [State.DEMO_WALL],
-
-  [State.DEMO_WALL]: [],
-};
-
-export const ROUTE_STATE_MAP = {
-  [State.PHRASE_ISSUED]: "/page1.html",
-  [State.QUESTIONS]: "/page2.html",
-  [State.LIMIT_REACHED]: "/page9.html",
-  [State.SUBMIT_PHRASE]: "/page3.html",
-  [State.SUCCESS]: "/page4.html",
-  [State.FAILURE]: "/page5.html",
-  [State.TRANSFER_PORTAL]: "/page6.html",
-  [State.DEMO_WALL]: "/page7.html",
-};
-
-export const UNIQUE_PHRASE_STORAGE_KEY = "uniquePhrase";
-export const STATE_STORAGE_KEY = "state";
-export const UUID_STORAGE_KEY = "UUID";
-export const QUESTIONS_COUNT_KEY = "questions-count"
+import {
+  State,
+  TRANSITIONS,
+  ROUTE_STATE_MAP,
+  STATE_STORAGE_KEY,
+  UNIQUE_PHRASE_STORAGE_KEY,
+  PHRASE_COOLDOWN_TIMESTAMP,
+  QUESTIONS_COUNT_KEY,
+  UUID_STORAGE_KEY,
+} from "./constants.js";
 
 class stateMachineClass {
   currentState;
   uniquePhrase;
+  phraseCooldowTimestamp;
   UUID;
   questionsCount;
 
@@ -60,10 +22,11 @@ class stateMachineClass {
     this.currentState = State.PHRASE_ISSUED;
     this.uniquePhrase = generateUniquePhrase();
     this.UUID = generateUUIDv4();
-    this.questionsCount = 0
+    this.questionsCount = 0;
+    this.phraseCooldowTimestamp = null;
 
     this.restoreFromStorage();
-    this.persistInStorage()
+    this.persistInStorage();
 
     this.validateCurrentRoute();
   }
@@ -80,14 +43,31 @@ class stateMachineClass {
     return this.UUID;
   }
 
-  getQuestionsCount(){
-    return this.questionsCount
+  getQuestionsCount() {
+    return this.questionsCount;
   }
-  
-  increaseQuestionsCount(){
-    const currentCount = this.questionsCount
-    this.questionsCount = currentCount + 1
-    this.persistInStorage()
+
+  increaseQuestionsCount() {
+    const currentCount = this.questionsCount;
+    this.questionsCount = currentCount + 1;
+    this.persistInStorage();
+  }
+
+  getPhraseCooldownTimestamp() {
+    return this.phraseCooldowTimestamp;
+  }
+
+  setPhraseCooldownTimeStamp() {
+    const now = new Date();
+    this.phraseCooldowTimestamp = now;
+    this.persistInStorage();
+  }
+
+  resetPhraseAndRelatedAfterCooldownFinish() {
+    this.phraseCooldowTimestamp = null;
+    this.uniquePhrase = generateUniquePhrase();
+    this.questionsCount = 0;
+    this.persistInStorage();
   }
 
   canTransitionTo(nextState) {
@@ -96,7 +76,7 @@ class stateMachineClass {
 
   transitionTo(nextState) {
     if (!this.canTransitionTo(nextState)) {
-      console.warn(
+      console.log(
         `[State MACHINE] Transition not allowed: ${this.currentState} → ${nextState}`,
       );
       return false;
@@ -114,13 +94,29 @@ class stateMachineClass {
     storeInStorage(UNIQUE_PHRASE_STORAGE_KEY, this.uniquePhrase);
     storeInStorage(UUID_STORAGE_KEY, this.UUID);
     storeInStorage(QUESTIONS_COUNT_KEY, this.questionsCount);
+
+    if (
+      this.phraseCooldowTimestamp instanceof Date &&
+      this.phraseCooldowTimestamp != null &&
+      this.phraseCooldowTimestamp != ""
+    ) {
+      storeInStorage(
+        PHRASE_COOLDOWN_TIMESTAMP,
+        this.phraseCooldowTimestamp.toISOString(),
+      );
+    } else {
+      storeInStorage(PHRASE_COOLDOWN_TIMESTAMP, this.phraseCooldowTimestamp);
+    }
   }
 
   restoreFromStorage() {
     const state = retrieveFromStorage(STATE_STORAGE_KEY);
     const phrase = retrieveFromStorage(UNIQUE_PHRASE_STORAGE_KEY);
     const uuid = retrieveFromStorage(UUID_STORAGE_KEY);
-    const questionsCount = retrieveFromStorage(QUESTIONS_COUNT_KEY)
+    const questionsCount = retrieveFromStorage(QUESTIONS_COUNT_KEY);
+    const phraseCooldowTimestamp = retrieveFromStorage(
+      PHRASE_COOLDOWN_TIMESTAMP,
+    );
 
     if (state && Object.values(State).includes(state)) {
       this.currentState = state;
@@ -134,8 +130,19 @@ class stateMachineClass {
       this.UUID = uuid;
     }
 
-    if(typeof questionsCount === "string" && Number.isNaN(questionsCount) === false){
-      this.questionsCount = parseInt(questionsCount)
+    if (
+      typeof questionsCount === "string" &&
+      Number.isNaN(questionsCount) === false
+    ) {
+      this.questionsCount = parseInt(questionsCount);
+    }
+
+    if (
+      typeof phraseCooldowTimestamp === "string" &&
+      phraseCooldowTimestamp.length > 0 &&
+      phraseCooldowTimestamp != "null"
+    ) {
+      this.phraseCooldowTimestamp = new Date(phraseCooldowTimestamp);
     }
   }
 
@@ -143,7 +150,8 @@ class stateMachineClass {
     this.currentState = State.PHRASE_ISSUED;
     this.uniquePhrase = generateUniquePhrase();
     this.UUID = generateUUIDv4();
-    this.questionsCount = 0
+    this.questionsCount = 0;
+    this.phraseCooldowTimestamp = null;
     this.persistInStorage();
   }
 

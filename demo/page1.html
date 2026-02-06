@@ -387,7 +387,8 @@
     </div>
 
     <script type="module">
-      import { stateMachine, State } from "/js/state-machine.js";
+      import { stateMachine } from "/js/state-machine.js";
+      import {State} from "/js/constants.js"
       
       const phrase = document.getElementById("phrase");
       phrase.textContent = stateMachine.getUniquePhrase();
@@ -395,7 +396,10 @@
       const proceedButton = document.getElementById("buttons02")
       proceedButton.addEventListener("click", (e) => {
         e.preventDefault()
-        stateMachine.transitionTo(State.QUESTIONS);
+        const result = stateMachine.transitionTo(State.QUESTIONS);
+        if(result){
+          stateMachine.setPhraseCooldownTimeStamp()
+        }
       });
 
     </script>
