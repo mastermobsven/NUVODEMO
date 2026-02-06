@@ -12,11 +12,7 @@ export const State = {
 export const TRANSITIONS = {
   [State.PHRASE_ISSUED]: [State.QUESTIONS, State.SUBMIT_PHRASE],
 
-  [State.QUESTIONS]: [
-    State.QUESTIONS,
-    State.LIMIT_REACHED,
-    State.SUBMIT_PHRASE,
-  ],
+  [State.QUESTIONS]: [State.LIMIT_REACHED, State.SUBMIT_PHRASE],
 
   [State.LIMIT_REACHED]: [State.PHRASE_ISSUED],
 
@@ -43,33 +39,35 @@ export const ROUTE_STATE_MAP = {
 };
 
 export const UNIQUE_PHRASE_STORAGE_KEY = "uniquePhrase";
-export const PHRASE_COOLDOWN_TIMESTAMP = "phrase-cooldown-timestamp"
+export const PHRASE_COOLDOWN_TIMESTAMP = "phrase-cooldown-timestamp";
 export const STATE_STORAGE_KEY = "state";
 export const UUID_STORAGE_KEY = "UUID";
-export const QUESTIONS_COUNT_KEY = "questions-count"
+export const QUESTIONS_COUNT_KEY = "questions-count";
 
 export const QA_SET = [
-    ["Who is this for?", "Those who arrive."],
-    ["Is this a membership?", "No."],
-    ["Is there value in an identity?", "Only to the holder."],
-    ["Can an identity be transferred?", "Yes."],
-    ["How many identities exist?", "Fewer than you think."],
-    ["Can I try again later?", "You may return."],
-    ["Why are questions limited?", "So answers matter."],
-    ["Who runs this system?", "The system runs itself."],
-    ["What happens after I receive an identity?", "You wait."],
-    ["What happens if I don’t receive one?", "You decide what to do next."],
-    ["Is this social media?", "No."],
-    ["Is this art?", "That depends on you."],
-    ["Is this serious?", "Entirely."],
-    ["Can I lose an identity?", "Yes."],
-    ["Can I hold more than one?", "No."],
-    ["Is this anonymous?", "Yes."],
-    ["How long has this existed?", "Long enough."],
-    ["Why am I here?", "You arrived."],
-    ["What is NUVO?", "A system."],
-    ["What is the door?", "You are at it."],
-    ["What should I do next?", "Continue."],
-    ];
+  ["Who is this for?", "Those who arrive."],
+  ["Is this a membership?", "No."],
+  ["Is there value in an identity?", "Only to the holder."],
+  ["Can an identity be transferred?", "Yes."],
+  ["How many identities exist?", "Fewer than you think."],
+  ["Can I try again later?", "You may return."],
+  ["Why are questions limited?", "So answers matter."],
+  ["Who runs this system?", "The system runs itself."],
+  ["What happens after I receive an identity?", "You wait."],
+  ["What happens if I don’t receive one?", "You decide what to do next."],
+  ["Is this social media?", "No."],
+  ["Is this art?", "That depends on you."],
+  ["Is this serious?", "Entirely."],
+  ["Can I lose an identity?", "Yes."],
+  ["Can I hold more than one?", "No."],
+  ["Is this anonymous?", "Yes."],
+  ["How long has this existed?", "Long enough."],
+  ["Why am I here?", "You arrived."],
+  ["What is NUVO?", "A system."],
+  ["What is the door?", "You are at it."],
+  ["What should I do next?", "Continue."],
+];
 
 export const COOLDOWN_MS = 60 * 3 * 1000; // 60 minutes
+
+export const SUCCESS_PROBABILITY = 0.2

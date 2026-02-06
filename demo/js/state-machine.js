@@ -14,18 +14,27 @@ import {
 class stateMachineClass {
   currentState;
   uniquePhrase;
-  phraseCooldowTimestamp;
+  phraseCooldownTimestamp;
   UUID;
   questionsCount;
 
-  constructor() {
-    this.currentState = State.PHRASE_ISSUED;
-    this.uniquePhrase = generateUniquePhrase();
-    this.UUID = generateUUIDv4();
-    this.questionsCount = 0;
-    this.phraseCooldowTimestamp = null;
+  constructor({
+    currentState = State.PHRASE_ISSUED,
+    uniquePhrase = generateUniquePhrase(),
+    UUID = generateUUIDv4(),
+    questionsCount = 0,
+    phraseCooldownTimestamp = null,
+    skipInitialRestoreFromStorage = false
+  }) {
+    this.currentState = currentState;
+    this.uniquePhrase = uniquePhrase;
+    this.UUID = UUID;
+    this.questionsCount = questionsCount;
+    this.phraseCooldownTimestamp = phraseCooldownTimestamp;
 
-    this.restoreFromStorage();
+    if(skipInitialRestoreFromStorage===false){
+      this.restoreFromStorage();
+    }
     this.persistInStorage();
 
     this.validateCurrentRoute();
@@ -53,18 +62,18 @@ class stateMachineClass {
     this.persistInStorage();
   }
 
-  getPhraseCooldownTimestamp() {
-    return this.phraseCooldowTimestamp;
+  getPhraseCooldownnTimestamp() {
+    return this.phraseCooldownTimestamp;
   }
 
-  setPhraseCooldownTimeStamp() {
+  setPhraseCooldownnTimeStamp() {
     const now = new Date();
-    this.phraseCooldowTimestamp = now;
+    this.phraseCooldownTimestamp = now;
     this.persistInStorage();
   }
 
-  resetPhraseAndRelatedAfterCooldownFinish() {
-    this.phraseCooldowTimestamp = null;
+  resetPhraseAndRelatedAfterCooldownnFinish() {
+    this.phraseCooldownTimestamp = null;
     this.uniquePhrase = generateUniquePhrase();
     this.questionsCount = 0;
     this.persistInStorage();
@@ -96,16 +105,17 @@ class stateMachineClass {
     storeInStorage(QUESTIONS_COUNT_KEY, this.questionsCount);
 
     if (
-      this.phraseCooldowTimestamp instanceof Date &&
-      this.phraseCooldowTimestamp != null &&
-      this.phraseCooldowTimestamp != ""
+      this.phraseCooldownTimestamp instanceof Date &&
+      this.phraseCooldownTimestamp != null &&
+      this.phraseCooldownTimestamp != "" &&
+      !Number.isNaN(this.phraseCooldownTimestamp.getTime())
     ) {
       storeInStorage(
         PHRASE_COOLDOWN_TIMESTAMP,
-        this.phraseCooldowTimestamp.toISOString(),
+        this.phraseCooldownTimestamp.toISOString(),
       );
     } else {
-      storeInStorage(PHRASE_COOLDOWN_TIMESTAMP, this.phraseCooldowTimestamp);
+      storeInStorage(PHRASE_COOLDOWN_TIMESTAMP, this.phraseCooldownTimestamp);
     }
   }
 
@@ -114,7 +124,7 @@ class stateMachineClass {
     const phrase = retrieveFromStorage(UNIQUE_PHRASE_STORAGE_KEY);
     const uuid = retrieveFromStorage(UUID_STORAGE_KEY);
     const questionsCount = retrieveFromStorage(QUESTIONS_COUNT_KEY);
-    const phraseCooldowTimestamp = retrieveFromStorage(
+    const phraseCooldownTimestamp = retrieveFromStorage(
       PHRASE_COOLDOWN_TIMESTAMP,
     );
 
@@ -138,11 +148,15 @@ class stateMachineClass {
     }
 
     if (
-      typeof phraseCooldowTimestamp === "string" &&
-      phraseCooldowTimestamp.length > 0 &&
-      phraseCooldowTimestamp != "null"
+      typeof phraseCooldownTimestamp === "string" &&
+      phraseCooldownTimestamp.length > 0 &&
+      phraseCooldownTimestamp != "null" &&
+      phraseCooldownTimestamp != null
     ) {
-      this.phraseCooldowTimestamp = new Date(phraseCooldowTimestamp);
+      const value = new Date(phraseCooldownTimestamp);
+      if(!Number.isNaN(value.getTime())){
+        this.phraseCooldownTimestamp = value
+      }
     }
   }
 
@@ -151,7 +165,7 @@ class stateMachineClass {
     this.uniquePhrase = generateUniquePhrase();
     this.UUID = generateUUIDv4();
     this.questionsCount = 0;
-    this.phraseCooldowTimestamp = null;
+    this.phraseCooldownTimestamp = null;
     this.persistInStorage();
   }
 
@@ -164,4 +178,15 @@ class stateMachineClass {
   }
 }
 
-export const stateMachine = new stateMachineClass();
+//state machine in submit identity page
+// export const stateMachine = new stateMachineClass({
+//   currentState: State.SUBMIT_PHRASE,
+//   uniquePhrase: "2876desert",
+//   questionsCount: 0,
+//   phraseCooldownTimestamp: new Date(),
+//   UUID: "84bbe3cb-956f-43a9-bc49-997dc30276bf",
+//   skipInitialRestoreFromStorage: false
+// });
+
+
+export const stateMachine = new stateMachineClass({})

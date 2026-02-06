@@ -486,7 +486,7 @@
           </h1>
           <ul id="links01" class="links-component instance-1">
             <li class="n01">
-              <a href="page3.html">IDENTITY GENERATOR</a>
+              <a id="identity-generator-link" href="#">IDENTITY GENERATOR</a>
             </li>
           </ul>
           <h1 id="text03" class="text-component instance-3">INQUIRY</h1>
@@ -523,6 +523,12 @@
 
       const select = document.getElementById("questionSelect");
       const responseBox = document.getElementById("responseBox");
+      const identityGeneratorLink = document.getElementById("identity-generator-link")
+
+      identityGeneratorLink.addEventListener("click", (e) => {
+        e.preventDefault()
+        stateMachine.transitionTo(State.SUBMIT_PHRASE)
+      })
 
       // Load Questions
       QA_SET.forEach((item, index) => {

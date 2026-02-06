@@ -383,12 +383,12 @@
           </h1>
           <ul id="buttons01" class="buttons-component instance-1">
             <li>
-              <a href="#" class="n01" role="button">5629flower</a>
+              <a id="phrase" href="#" class="n01" role="button"></a>
             </li>
           </ul>
           <ul id="buttons03" class="buttons-component instance-3">
             <li>
-              <a href="page4.html" class="n01" role="button"
+              <a id="submit" href="#" class="n01" role="button"
                 >SUBMIT</a
               >
             </li>
@@ -396,5 +396,23 @@
         </div>
       </div>
     </div>
+    <script type="module">
+      import {stateMachine} from "/js/state-machine.js"
+      import {State, SUCCESS_PROBABILITY} from "/js/constants.js"
+
+      const phrase = document.getElementById("phrase")
+      phrase.textContent = stateMachine.getUniquePhrase()
+
+      const submit = document.getElementById("submit")
+      submit.addEventListener("click", (e) => {
+        e.preventDefault()
+        const random = Math.floor(Math.random()*10)/10
+        if(random <= SUCCESS_PROBABILITY){
+          stateMachine.transitionTo(State.SUCCESS)
+          return
+        }
+        stateMachine.transitionTo(State.FAILURE)
+      })
+    </script>
   </body>
 </html>
