@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NUVO Metrics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <!-- LOGIN -->
+    <div id="login-screen" class="screen">
+      <h1>Metrics Access</h1>
+      <input
+        type="password"
+        id="password-input"
+        placeholder="Password"
+        autocomplete="off"
+      />
+      <button id="login-btn">Enter</button>
+      <p id="login-error" class="error hidden">ACCESS DENIED</p>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard-screen" class="screen hidden">
+      <h1>System Metrics</h1>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="label">Total Visitors</span>
+          <span id="total-visitors" class="value">0</span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Phrase Tokens Generated</span>
+          <span id="phrases-generated" class="value">0</span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Questions Asked</span>
+          <span id="questions-asked" class="value">0</span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Phrase Submissions</span>
+          <span id="phrase-submissions" class="value">0</span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Identities Issued</span>
+          <span id="identities-issued" class="value">0</span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Failures</span>
+          <span id="failures" class="value">0</span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Transfer Claims</span>
+          <span id="transfer-claims" class="value">0</span>
+        </div>
+      </div>
+
+      <div class="feedback-section">
+        <h1 style="text-align:center; width:100%">Users Feedback</h1>
+        <div id="feedback-container"></div>
+      </div>
+    </div>
+
+    <script src="./dashboard.js"></script>
+  </body>
+</html>
