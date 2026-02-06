@@ -415,7 +415,7 @@
     </div>
     <script type="module">
       import {stateMachine} from '/js/state-machine.js'
-      import {State, SUCCESS_PROBABILITY} from "/js/constants.js"
+      import {State, PORTAL_SUCCESS_PROBABILITY} from "/js/constants.js"
 
       const returnButton = document.getElementById("return-button")
       returnButton.addEventListener("click", (e) => {
@@ -429,7 +429,7 @@
         e.preventDefault()
         const random = Math.floor(Math.random()*10)/10
         // success result
-        if(random <= SUCCESS_PROBABILITY){
+        if(random <= PORTAL_SUCCESS_PROBABILITY){
           stateMachine.transitionTo(State.TRANSFER_PORTAL)
           return
         }

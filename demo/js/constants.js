@@ -81,3 +81,4 @@ export const QA_SET = [
 export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
 
 export const SUCCESS_PROBABILITY = 0
+export const PORTAL_SUCCESS_PROBABILITY = 1
