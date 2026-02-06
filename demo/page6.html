@@ -429,7 +429,7 @@
           </div>
           <ul id="buttons02" class="buttons-component instance-2">
             <li>
-              <a href="https://nuvo01.carrd.co" class="n01" role="button"
+              <a id="asume-identity" href="#" class="n01" role="button"
                 >assume identity</a
               >
             </li>
@@ -441,13 +441,25 @@
           </div>
           <ul id="buttons03" class="buttons-component instance-3">
             <li>
-              <a href="https://nuvo01.carrd.co" class="n01" role="button"
-                >status: RESERVED</a
-              >
+              <a href="#" class="n01" role="button">status: RESERVED</a>
             </li>
           </ul>
         </div>
       </div>
     </div>
+    <script type="module">
+      import { stateMachine } from "/js/state-machine.js";
+      import { State } from "/js/constants.js";
+
+      const asumeIdentity = document.getElementById("asume-identity");
+      asumeIdentity.addEventListener("click", (e) => {
+        e.preventDefault();
+        asumeIdentity.textContent = "status: RESERVED";
+
+        setTimeout(() => {
+          stateMachine.transitionTo(State.LIMIT_REACHED);
+        }, 3000);
+      });
+    </script>
   </body>
 </html>
