@@ -80,5 +80,21 @@ export const QA_SET = [
 
 export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
 
-export const SUCCESS_PROBABILITY = 0
-export const PORTAL_SUCCESS_PROBABILITY = 1
+export const SUCCESS_PROBABILITY = 1
+export const PORTAL_SUCCESS_PROBABILITY = 0.2
+
+
+// metrics map
+export const METRICS_MAP = {
+  VISITORS: "visitors",
+  PHRASES_GENERATED: "phrasesGenerated",
+  QUESTIONS_ASKED: "questionsAsked",
+  PHRASE_SUBMISSIONS: "phraseSubmissions",
+  SUCCESSES: "successes",
+  FAILURES: "failures",
+  TRANSFER_CLAIMS: "transferClaims"
+}
+
+export const VISITOR_FIELDS_MAP = {
+  DEMO_COMPLETED: "demoCompleted"
+}

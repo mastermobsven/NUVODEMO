@@ -10,11 +10,7 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link
-      href="./css/global.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="./css/global.css" rel="stylesheet" type="text/css" />
     <title>SYSTEM WELCOME</title>
 
     <style>
@@ -388,20 +384,35 @@
 
     <script type="module">
       import { stateMachine } from "/js/state-machine.js";
-      import {State} from "/js/constants.js"
-      
+      import { State, METRICS_MAP } from "/js/constants.js";
+      import { logMetric } from "/js/metrics.js";
+      import {
+        getVisitorSession,
+        createVisitorSession,
+      } from "/js/visitor-session.js";
+
       const phrase = document.getElementById("phrase");
       phrase.textContent = stateMachine.getUniquePhrase();
 
-      const proceedButton = document.getElementById("buttons02")
-      proceedButton.addEventListener("click", (e) => {
-        e.preventDefault()
-        if(stateMachine.canTransitionTo(State.QUESTIONS)){
-          stateMachine.setPhraseCooldownTimeStamp()
+      // handling visitor session through UUID
+      const visitorSession = await getVisitorSession(stateMachine.getUUID());
+      if (visitorSession == null) {
+        console.log("No session found for the visitor. Creating one ...");
+        await logMetric(METRICS_MAP.VISITORS);
+        await createVisitorSession(stateMachine.getUUID());
+      }else{
+        console.log("Session found for the visitor:", stateMachine.getUUID(), visitorSession)
+      }
+
+      const proceedButton = document.getElementById("buttons02");
+      proceedButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (stateMachine.canTransitionTo(State.QUESTIONS)) {
+          await logMetric(METRICS_MAP.PHRASES_GENERATED);
+          stateMachine.setPhraseCooldownTimeStamp();
           stateMachine.transitionTo(State.QUESTIONS);
         }
       });
-
     </script>
   </body>
 </html>

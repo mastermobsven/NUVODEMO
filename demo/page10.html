@@ -645,7 +645,8 @@
   <script type="module">
     import { stateMachine } from "/js/state-machine.js";
     import { State } from "/js/constants.js";
-    import {makeSelectable} from '/js/dom-control.js'
+    import { makeSelectable } from "/js/dom-control.js";
+    import { storeVisitorFeedback } from "/js/visitor-session.js";
 
     const feedback = {
       feelings: [],
@@ -661,7 +662,7 @@
     makeSelectable("buttons03", false);
 
     const submitFeedback = document.getElementById("submit-feedback");
-    submitFeedback.addEventListener("click", (e) => {
+    submitFeedback.addEventListener("click", async (e) => {
       e.preventDefault();
 
       feedback.feelings = [
@@ -676,9 +677,10 @@
 
       console.log("FEEDBACK:", feedback);
 
-      // send feedback to backend here
-      
-      stateMachine.transitionTo(State.DEMO_COMPLETED);
+      if (stateMachine.canTransitionTo(State.DEMO_COMPLETED)) {
+        await storeVisitorFeedback(stateMachine.getUUID(), feedback)
+        stateMachine.transitionTo(State.DEMO_COMPLETED);
+      }
     });
   </script>
 </html>

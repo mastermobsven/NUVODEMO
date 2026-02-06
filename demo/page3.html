@@ -398,23 +398,30 @@
     </div>
     <script type="module">
       import {stateMachine} from "/js/state-machine.js"
-      import {State, SUCCESS_PROBABILITY} from "/js/constants.js"
+      import {State, SUCCESS_PROBABILITY, METRICS_MAP} from "/js/constants.js"
+      import {logMetric} from "/js/metrics.js"
 
       const phrase = document.getElementById("phrase")
       phrase.textContent = stateMachine.getUniquePhrase()
 
       const submit = document.getElementById("submit")
-      submit.addEventListener("click", (e) => {
+      submit.addEventListener("click", async (e) => {
         e.preventDefault()
         const random = Math.floor(Math.random()*10)/10
 
+        await logMetric(METRICS_MAP.PHRASE_SUBMISSIONS)
+
         // success result
-        if(random <= SUCCESS_PROBABILITY){
+        if(random <= SUCCESS_PROBABILITY && stateMachine.canTransitionTo(State.SUCCESS)){
+          await logMetric(METRICS_MAP.SUCCESSES)
           stateMachine.transitionTo(State.SUCCESS)
           return
         }
         // no success result
-        stateMachine.transitionTo(State.FAILURE)
+        if(stateMachine.canTransitionTo(State.FAILURE)){
+          await logMetric(METRICS_MAP.FAILURES)
+          stateMachine.transitionTo(State.FAILURE)
+        }
       })
     </script>
   </body>

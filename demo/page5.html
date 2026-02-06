@@ -415,7 +415,8 @@
     </div>
     <script type="module">
       import {stateMachine} from '/js/state-machine.js'
-      import {State, PORTAL_SUCCESS_PROBABILITY} from "/js/constants.js"
+      import {State, PORTAL_SUCCESS_PROBABILITY, METRICS_MAP} from "/js/constants.js"
+      import {logMetric} from "/js/metrics.js"
 
       const returnButton = document.getElementById("return-button")
       returnButton.addEventListener("click", (e) => {
@@ -425,9 +426,12 @@
       })
 
       const enterToPortal = document.getElementById("enter-to-portal")
-      enterToPortal.addEventListener("click", (e) => {
+      enterToPortal.addEventListener("click", async (e) => {
         e.preventDefault()
         const random = Math.floor(Math.random()*10)/10
+
+        await logMetric(METRICS_MAP.TRANSFER_CLAIMS)
+
         // success result
         if(random <= PORTAL_SUCCESS_PROBABILITY){
           stateMachine.transitionTo(State.TRANSFER_PORTAL)

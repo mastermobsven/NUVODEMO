@@ -518,7 +518,8 @@
 
     <script type="module">
       import {stateMachine} from "/js/state-machine.js"
-      import {State, ROUTE_STATE_MAP, QA_SET} from "/js/constants.js"
+      import {State, ROUTE_STATE_MAP, QA_SET, METRICS_MAP} from "/js/constants.js"
+      import {logMetric} from "/js/metrics.js"
 
       // validate questions limit
       if(stateMachine.getQuestionsCount() >= 3){
@@ -543,10 +544,12 @@
       });
 
       // Show Answer
-      select.addEventListener("change", () => {
+      select.addEventListener("change", async () => {
         const index = select.value;
         responseBox.textContent = index === "" ? "—" : QA_SET[index][1];
         stateMachine.increaseQuestionsCount()
+        
+        await logMetric(METRICS_MAP.QUESTIONS_ASKED)
 
         // validate questions limit
         if(stateMachine.getQuestionsCount() >= 3){
