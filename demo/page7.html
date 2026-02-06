@@ -240,5 +240,13 @@
         </div>
       </div>
     </div>
+    <script type="module">
+      import { stateMachine } from "/js/state-machine.js";
+      import { State } from "/js/constants.js";
+
+      setTimeout(() => {
+        stateMachine.transitionTo(State.LIMIT_REACHED);
+      }, 5000);
+    </script>
   </body>
 </html>

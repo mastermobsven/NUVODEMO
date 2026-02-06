@@ -6,6 +6,7 @@ export const State = {
   SUCCESS: "SUCCESS",
   FAILURE: "FAILURE",
   TRANSFER_PORTAL: "TRANSFER_PORTAL",
+  NO_TRANSFER_PORTAL: "NO_TRANSFER_PORTAL",
   DEMO_WALL: "DEMO_WALL",
   FEEDBACK: "FEEDBACK",
   DEMO_COMPLETED: "DEMO_COMPLETED"
@@ -20,9 +21,11 @@ export const TRANSITIONS = {
 
   [State.SUBMIT_PHRASE]: [State.SUCCESS, State.FAILURE],
 
-  [State.FAILURE]: [State.TRANSFER_PORTAL],
+  [State.FAILURE]: [State.TRANSFER_PORTAL, State.NO_TRANSFER_PORTAL, State.LIMIT_REACHED],
 
   [State.TRANSFER_PORTAL]: [State.DEMO_WALL],
+
+  [State.NO_TRANSFER_PORTAL]: [State.LIMIT_REACHED],
 
   [State.SUCCESS]: [State.DEMO_WALL],
 
@@ -39,6 +42,7 @@ export const ROUTE_STATE_MAP = {
   [State.SUCCESS]: "/page4.html",
   [State.FAILURE]: "/page5.html",
   [State.TRANSFER_PORTAL]: "/page6.html",
+  [State.NO_TRANSFER_PORTAL]: "/page7.html",
   [State.DEMO_WALL]: "/page8.html",
   [State.FEEDBACK]: "/page10.html",
   [State.DEMO_COMPLETED]: "/page11.html",
@@ -76,4 +80,4 @@ export const QA_SET = [
 
 export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
 
-export const SUCCESS_PROBABILITY = 1
+export const SUCCESS_PROBABILITY = 0

@@ -407,10 +407,13 @@
       submit.addEventListener("click", (e) => {
         e.preventDefault()
         const random = Math.floor(Math.random()*10)/10
+
+        // success result
         if(random <= SUCCESS_PROBABILITY){
           stateMachine.transitionTo(State.SUCCESS)
           return
         }
+        // no success result
         stateMachine.transitionTo(State.FAILURE)
       })
     </script>
