@@ -35,7 +35,7 @@ const TRANSITIONS = {
 };
 
 export const ROUTE_STATE_MAP = {
-  [State.PHRASE_ISSUED]: "/",
+  [State.PHRASE_ISSUED]: "/page1.html",
   [State.QUESTIONS]: "/page2.html",
   [State.LIMIT_REACHED]: "/page9.html",
   [State.SUBMIT_PHRASE]: "/page3.html",
