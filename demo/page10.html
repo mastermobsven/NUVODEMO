@@ -14,6 +14,44 @@
     <title>FEEDBACK</title>
 
     <style>
+      /*feedback selection styles*/
+      .feedback-option {
+        cursor: pointer;
+        transition: color 0.15s ease;
+      }
+
+      .feedback-option:hover {
+        color: #e6f29b;
+      }
+
+      .feedback-option.selected {
+        color: #e6f29b;
+      }
+
+      /*Reply box*/
+      .reply-box {
+        background-color: #000000;
+        border: 0;
+        max-width: 575px;
+        width: 85vw;
+        color: #fff;
+        line-height: 2rem;
+        padding: 0.3rem 0.1rem;
+        vertical-align: middle;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.25rem;
+        padding-left: calc(0.325rem + 1rem);
+        font-size: 1em;
+        font-weight: 400;
+        border-radius: 0rem;
+        direction: var(--site-language-direction);
+      }
+
+      .reply-box:focus {
+        border: 0;
+        outline: 0;
+      }
+
       .text-component.instance-3 {
         text-align: left;
         max-width: 40rem;
@@ -564,7 +602,7 @@
           </h1>
           <ul id="buttons01" class="buttons-component instance-1">
             <li>
-              <a href="#" class="n01" role="button"
+              <a href="#" class="n01" role="group"
                 >CURIOUS FRUSTRATED CONFUSSED INTRIGUED EXCITED</a
               >
             </li>
@@ -576,9 +614,7 @@
           </h1>
           <ul id="buttons03" class="buttons-component instance-3">
             <li>
-              <a href="https://nuvopage4.carrd.co" class="n01" role="button"
-                >YES NO PERHAPS</a
-              >
+              <a href="#" class="n01" role="group">YES NO PERHAPS</a>
             </li>
           </ul>
           <h1 id="text04" class="text-component instance-4">
@@ -586,17 +622,13 @@
           </h1>
           <ul id="buttons04" class="buttons-component instance-4">
             <li>
-              <a href="https://nuvopage5.carrd.co" class="n01" role="button"
-                >VISITOR REPLY box</a
-              >
+              <textarea id="reply-box-1" class="reply-box"></textarea>
             </li>
           </ul>
           <h1 id="text01" class="text-component instance-1">optional notes.</h1>
           <ul id="buttons05" class="buttons-component instance-5">
             <li>
-              <a href="https://nuvopage5.carrd.co" class="n01" role="button"
-                >VISITOR REPLY box</a
-              >
+              <textarea id="reply-box-2" class="reply-box"></textarea>
             </li>
           </ul>
           <ul id="buttons02" class="buttons-component instance-2">
@@ -612,15 +644,41 @@
   </body>
   <script type="module">
     import { stateMachine } from "/js/state-machine.js";
-    import {State} from "/js/constants.js"
+    import { State } from "/js/constants.js";
+    import {makeSelectable} from '/js/dom-control.js'
+
+    const feedback = {
+      feelings: [],
+      wouldRetry: null,
+      systemIdea: "",
+      notes: "",
+    };
+
+    // Feelings (multiple choice)
+    makeSelectable("buttons01", true);
+
+    // Would try again (single choice)
+    makeSelectable("buttons03", false);
 
     const submitFeedback = document.getElementById("submit-feedback");
     submitFeedback.addEventListener("click", (e) => {
-      e.preventDefault()
+      e.preventDefault();
+
+      feedback.feelings = [
+        ...document.querySelectorAll("#buttons01 .selected"),
+      ].map((el) => el.textContent);
+
+      feedback.wouldRetry =
+        document.querySelector("#buttons03 .selected")?.textContent || null;
+
+      feedback.systemIdea = document.getElementById("reply-box-1").value;
+      feedback.notes = document.getElementById("reply-box-2").value;
+
+      console.log("FEEDBACK:", feedback);
 
       // send feedback to backend here
-
-      stateMachine.transitionTo(State.DEMO_COMPLETED)
-    })
+      
+      stateMachine.transitionTo(State.DEMO_COMPLETED);
+    });
   </script>
 </html>
