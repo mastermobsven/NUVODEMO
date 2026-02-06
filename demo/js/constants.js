@@ -7,7 +7,8 @@ export const State = {
   FAILURE: "FAILURE",
   TRANSFER_PORTAL: "TRANSFER_PORTAL",
   DEMO_WALL: "DEMO_WALL",
-  FEEDBACK: "FEEDBACK"
+  FEEDBACK: "FEEDBACK",
+  DEMO_COMPLETED: "DEMO_COMPLETED"
 };
 
 export const TRANSITIONS = {
@@ -26,6 +27,8 @@ export const TRANSITIONS = {
   [State.SUCCESS]: [State.DEMO_WALL],
 
   [State.DEMO_WALL]: [State.FEEDBACK],
+
+  [State.FEEDBACK]: [State.DEMO_COMPLETED],
 };
 
 export const ROUTE_STATE_MAP = {
@@ -38,6 +41,7 @@ export const ROUTE_STATE_MAP = {
   [State.TRANSFER_PORTAL]: "/page6.html",
   [State.DEMO_WALL]: "/page8.html",
   [State.FEEDBACK]: "/page10.html",
+  [State.DEMO_COMPLETED]: "/page11.html",
 };
 
 export const UNIQUE_PHRASE_STORAGE_KEY = "uniquePhrase";

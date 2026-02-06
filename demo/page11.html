@@ -11,9 +11,12 @@
       type="text/css"
     />
     <link href="./css/global.css" rel="stylesheet" type="text/css" />
-    <title>FEEDBACK</title>
+    <title>DEMO COMPLETED</title>
 
     <style>
+      #text03 {
+        text-align: center;
+      }
       .text-component.instance-3 {
         text-align: left;
         max-width: 40rem;
@@ -558,69 +561,13 @@
       <div class="site-main">
         <div class="inner">
           <h1 id="text03" class="text-component instance-3">
-            <span class="p">
-              HOW DID THIS EXPERIENCE FEEL?<br />select any THAT APPLY.
-            </span>
+            NUVO DEMO COMPLETED
           </h1>
-          <ul id="buttons01" class="buttons-component instance-1">
-            <li>
-              <a href="#" class="n01" role="button"
-                >CURIOUS FRUSTRATED CONFUSSED INTRIGUED EXCITED</a
-              >
-            </li>
-          </ul>
-          <h1 id="text02" class="text-component instance-2">
-            <span class="p">
-              WOULD YOU TRY AGAIN for AN IDENTITY?<br />PICK ONE.
-            </span>
-          </h1>
-          <ul id="buttons03" class="buttons-component instance-3">
-            <li>
-              <a href="https://nuvopage4.carrd.co" class="n01" role="button"
-                >YES NO PERHAPS</a
-              >
-            </li>
-          </ul>
-          <h1 id="text04" class="text-component instance-4">
-            WHAT DO YOU THINK THE SYSTEM IS?
-          </h1>
-          <ul id="buttons04" class="buttons-component instance-4">
-            <li>
-              <a href="https://nuvopage5.carrd.co" class="n01" role="button"
-                >VISITOR REPLY box</a
-              >
-            </li>
-          </ul>
-          <h1 id="text01" class="text-component instance-1">optional notes.</h1>
-          <ul id="buttons05" class="buttons-component instance-5">
-            <li>
-              <a href="https://nuvopage5.carrd.co" class="n01" role="button"
-                >VISITOR REPLY box</a
-              >
-            </li>
-          </ul>
-          <ul id="buttons02" class="buttons-component instance-2">
-            <li>
-              <a id="submit-feedback" href="#" class="n01" role="button"
-                >submit</a
-              >
-            </li>
-          </ul>
         </div>
       </div>
     </div>
   </body>
   <script type="module">
     import { stateMachine } from "/js/state-machine.js";
-    import {State} from "/js/constants.js"
-
-    const submitFeedback = document.getElementById("submit-feedback");
-    submitFeedback.addEventListener("click", (e) => {
-      e.preventDefault()
-
-      // send feedback to backend here
-
-      stateMachine.transitionTo(State.DEMO_COMPLETED)
-    })
   </script>
 </html>
