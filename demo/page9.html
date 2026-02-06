@@ -370,11 +370,9 @@
         const elapsedMs = now - phraseCooldownTimestamp
         const remaining = Math.max(0, COOLDOWN_MS - elapsedMs);
 
-        if(remaining <= 0){
-          const result = stateMachine.transitionTo(State.PHRASE_ISSUED)
-          if(result){
-            stateMachine.resetPhraseAndRelatedAfterCooldownFinish()
-          }
+        if(remaining <= 0 && stateMachine.canTransitionTo(State.PHRASE_ISSUED)){
+          stateMachine.resetPhraseAndRelatedAfterCooldownFinish()
+          stateMachine.transitionTo(State.PHRASE_ISSUED)
         }
         
         const { hours, minutes, seconds } = msToTime(remaining);

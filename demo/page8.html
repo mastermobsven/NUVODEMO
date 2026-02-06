@@ -327,7 +327,7 @@
           </h1>
           <ul id="buttons01" class="buttons-component instance-1">
             <li>
-              <a href="https://nuvopage10.carrd.co" class="n01" role="button"
+              <a id="give-feedback" href="#" class="n01" role="button"
                 >GIVE FEEDBACK</a
               >
             </li>
@@ -335,5 +335,15 @@
         </div>
       </div>
     </div>
+    <script type="module">
+      import {stateMachine} from '/js/state-machine.js'
+      import {State} from '/js/constants.js'
+
+      const giveFeedback = document.getElementById("give-feedback")
+      giveFeedback.addEventListener("click", (e) => {
+        e.preventDefault()
+        stateMachine.transitionTo(Status.FEEDBACK)
+      })
+    </script>
   </body>
 </html>

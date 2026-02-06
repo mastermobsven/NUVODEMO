@@ -396,9 +396,9 @@
       const proceedButton = document.getElementById("buttons02")
       proceedButton.addEventListener("click", (e) => {
         e.preventDefault()
-        const result = stateMachine.transitionTo(State.QUESTIONS);
-        if(result){
+        if(stateMachine.canTransitionTo(State.QUESTIONS)){
           stateMachine.setPhraseCooldownTimeStamp()
+          stateMachine.transitionTo(State.QUESTIONS);
         }
       });
 

@@ -450,7 +450,7 @@
           </ul>
           <ul id="buttons03" class="buttons-component instance-3">
             <li>
-              <a href="https://nuvopage8.carrd.co" class="n01" role="button"
+              <a id="login" href="#" class="n01" role="button"
                 >proceed to LOGIN</a
               >
             </li>
@@ -460,6 +460,13 @@
     </div>
     <script type="module">
       import {stateMachine} from '/js/state-machine.js'
+      import {State} from '/js/constants.js'
+
+      const login = document.getElementById("login")
+      login.addEventListener("click", (e) => {
+        e.preventDefault()
+        stateMachine.transitionTo(State.DEMO_WALL)
+      })
     </script>
   </body>
 </html>

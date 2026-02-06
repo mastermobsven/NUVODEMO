@@ -62,17 +62,17 @@ class stateMachineClass {
     this.persistInStorage();
   }
 
-  getPhraseCooldownnTimestamp() {
+  getPhraseCooldownTimestamp() {
     return this.phraseCooldownTimestamp;
   }
 
-  setPhraseCooldownnTimeStamp() {
+  setPhraseCooldownTimeStamp() {
     const now = new Date();
     this.phraseCooldownTimestamp = now;
     this.persistInStorage();
   }
 
-  resetPhraseAndRelatedAfterCooldownnFinish() {
+  resetPhraseAndRelatedAfterCooldownFinish() {
     this.phraseCooldownTimestamp = null;
     this.uniquePhrase = generateUniquePhrase();
     this.questionsCount = 0;
@@ -108,7 +108,7 @@ class stateMachineClass {
       this.phraseCooldownTimestamp instanceof Date &&
       this.phraseCooldownTimestamp != null &&
       this.phraseCooldownTimestamp != "" &&
-      !Number.isNaN(this.phraseCooldownTimestamp.getTime())
+      Number.isNaN(this.phraseCooldownTimestamp) === false
     ) {
       storeInStorage(
         PHRASE_COOLDOWN_TIMESTAMP,
