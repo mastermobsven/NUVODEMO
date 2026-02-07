@@ -158,7 +158,7 @@ class stateMachineClass {
     }
 
     if (typeof attempts === "string" && Number.isNaN(attempts) === false) {
-      this.attempts = attempts;
+      this.attempts = parseInt(attempts);
     }
 
     if (
@@ -194,7 +194,7 @@ class stateMachineClass {
   validateCurrentRoute() {
     if (
       this.attempts >= MAX_ATTEMPTS &&
-      window.location.pathname !== ROUTE_STATE_MAP[this.currentState]
+      window.location.pathname !== ROUTE_STATE_MAP[State.FEEDBACK]
     ) {
       this.currentState = State.FEEDBACK;
       this.persistInStorage();
