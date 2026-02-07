@@ -11,6 +11,8 @@ import {
   UUID_STORAGE_KEY,
   ATTEMPTS_KEY,
   MAX_ATTEMPTS,
+  SUCCESS_PROBABILITY_RATES,
+  MIN_SUCCES_PROBABILITY,
 } from "./constants.js";
 
 class stateMachineClass {
@@ -20,6 +22,7 @@ class stateMachineClass {
   UUID;
   questionsCount;
   attempts;
+  successProbability;
 
   constructor({
     currentState = State.PHRASE_ISSUED,
@@ -28,6 +31,7 @@ class stateMachineClass {
     questionsCount = 0,
     phraseCooldownTimestamp = null,
     attempts = 0,
+    successProbability = null,
     skipInitialRestoreFromStorage = false,
   }) {
     this.currentState = currentState;
@@ -40,9 +44,21 @@ class stateMachineClass {
     if (skipInitialRestoreFromStorage === false) {
       this.restoreFromStorage();
     }
-    this.persistInStorage();
 
+    this.persistInStorage();
     this.validateCurrentRoute();
+
+    // initialize successProbability
+    if (successProbability != null) {
+      this.successProbability = successProbability;
+    } else {
+      this.successProbability = this.calculateSuccessProbability({
+        attempt: this.attempts,
+      });
+    }
+
+    console.log("[State Machine] Success Probability:", this.successProbability)
+    console.log("[State Machine] Attempt:", this.attempts)
   }
 
   getState() {
@@ -61,10 +77,24 @@ class stateMachineClass {
     return this.attempts;
   }
 
-  increaseAttempts(){
-    const currentAttempts = this.attempts
-    this.attempts = currentAttempts + 1
-    this.persistInStorage()
+  increaseAttempts() {
+    const currentAttempts = this.attempts;
+    this.attempts = currentAttempts + 1;
+    this.persistInStorage();
+  }
+
+  getSuccessProbability() {
+    return this.successProbability;
+  }
+
+  calculateSuccessProbability({ attempt }) {
+    if (attempt <= 0) {
+      return SUCCESS_PROBABILITY_RATES[0];
+    }
+    if (attempt >= 6) {
+      return MIN_SUCCES_PROBABILITY;
+    }
+    return SUCCESS_PROBABILITY_RATES[attempt - 1] ?? MIN_SUCCES_PROBABILITY;
   }
 
   getQuestionsCount() {
@@ -188,6 +218,9 @@ class stateMachineClass {
     this.questionsCount = 0;
     this.phraseCooldownTimestamp = null;
     this.attempts = 0;
+    this.successProbability = this.calculateSuccessProbability({
+      attempt: this.attempts,
+    });
     this.persistInStorage();
   }
 

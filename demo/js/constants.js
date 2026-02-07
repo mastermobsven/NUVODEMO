@@ -81,7 +81,9 @@ export const QA_SET = [
 
 export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
 
-export const SUCCESS_PROBABILITY = 0.2
+export const SUCCESS_PROBABILITY_RATES = [0.30, 0.25, 0.20, 0.15, 0.10];
+export const MIN_SUCCES_PROBABILITY = 0.08
+
 export const PORTAL_SUCCESS_PROBABILITY = 0.2
 
 export const MAX_ATTEMPTS = 8

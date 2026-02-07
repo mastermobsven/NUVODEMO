@@ -398,7 +398,7 @@
     </div>
     <script type="module">
       import {stateMachine} from "/js/state-machine.js"
-      import {State, SUCCESS_PROBABILITY, METRICS_MAP} from "/js/constants.js"
+      import {State, METRICS_MAP} from "/js/constants.js"
       import {logMetric} from "/js/metrics.js"
 
       const phrase = document.getElementById("phrase")
@@ -407,12 +407,13 @@
       const submit = document.getElementById("submit")
       submit.addEventListener("click", async (e) => {
         e.preventDefault()
-        const random = Math.floor(Math.random()*10)/10
+        const random = Math.random()
+        console.log(random)
 
         await logMetric(METRICS_MAP.PHRASE_SUBMISSIONS)
 
         // success result
-        if(random <= SUCCESS_PROBABILITY && stateMachine.canTransitionTo(State.SUCCESS)){
+        if(random <= stateMachine.getSuccessProbability() && stateMachine.canTransitionTo(State.SUCCESS)){
           await logMetric(METRICS_MAP.SUCCESSES)
           stateMachine.transitionTo(State.SUCCESS)
           return
