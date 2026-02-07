@@ -9,6 +9,8 @@ import {
   PHRASE_COOLDOWN_TIMESTAMP,
   QUESTIONS_COUNT_KEY,
   UUID_STORAGE_KEY,
+  ATTEMPTS_KEY,
+  MAX_ATTEMPTS,
 } from "./constants.js";
 
 class stateMachineClass {
@@ -17,6 +19,7 @@ class stateMachineClass {
   phraseCooldownTimestamp;
   UUID;
   questionsCount;
+  attempts;
 
   constructor({
     currentState = State.PHRASE_ISSUED,
@@ -24,15 +27,17 @@ class stateMachineClass {
     UUID = generateUUIDv4(),
     questionsCount = 0,
     phraseCooldownTimestamp = null,
-    skipInitialRestoreFromStorage = false
+    attempts = 0,
+    skipInitialRestoreFromStorage = false,
   }) {
     this.currentState = currentState;
     this.uniquePhrase = uniquePhrase;
     this.UUID = UUID;
     this.questionsCount = questionsCount;
     this.phraseCooldownTimestamp = phraseCooldownTimestamp;
+    this.attempts = attempts;
 
-    if(skipInitialRestoreFromStorage===false){
+    if (skipInitialRestoreFromStorage === false) {
       this.restoreFromStorage();
     }
     this.persistInStorage();
@@ -50,6 +55,16 @@ class stateMachineClass {
 
   getUUID() {
     return this.UUID;
+  }
+
+  getAttempts() {
+    return this.attempts;
+  }
+
+  increaseAttempts(){
+    const currentAttempts = this.attempts
+    this.attempts = currentAttempts + 1
+    this.persistInStorage()
   }
 
   getQuestionsCount() {
@@ -103,6 +118,7 @@ class stateMachineClass {
     storeInStorage(UNIQUE_PHRASE_STORAGE_KEY, this.uniquePhrase);
     storeInStorage(UUID_STORAGE_KEY, this.UUID);
     storeInStorage(QUESTIONS_COUNT_KEY, this.questionsCount);
+    storeInStorage(ATTEMPTS_KEY, this.attempts);
 
     if (
       this.phraseCooldownTimestamp instanceof Date &&
@@ -127,6 +143,7 @@ class stateMachineClass {
     const phraseCooldownTimestamp = retrieveFromStorage(
       PHRASE_COOLDOWN_TIMESTAMP,
     );
+    const attempts = retrieveFromStorage(ATTEMPTS_KEY);
 
     if (state && Object.values(State).includes(state)) {
       this.currentState = state;
@@ -138,6 +155,10 @@ class stateMachineClass {
 
     if (typeof uuid === "string" && uuid.length > 0) {
       this.UUID = uuid;
+    }
+
+    if (typeof attempts === "string" && Number.isNaN(attempts) === false) {
+      this.attempts = attempts;
     }
 
     if (
@@ -154,8 +175,8 @@ class stateMachineClass {
       phraseCooldownTimestamp != null
     ) {
       const value = new Date(phraseCooldownTimestamp);
-      if(!Number.isNaN(value.getTime())){
-        this.phraseCooldownTimestamp = value
+      if (!Number.isNaN(value.getTime())) {
+        this.phraseCooldownTimestamp = value;
       }
     }
   }
@@ -166,10 +187,22 @@ class stateMachineClass {
     this.UUID = generateUUIDv4();
     this.questionsCount = 0;
     this.phraseCooldownTimestamp = null;
+    this.attempts = 0;
     this.persistInStorage();
   }
 
   validateCurrentRoute() {
+    if (
+      this.attempts >= MAX_ATTEMPTS &&
+      window.location.pathname !== ROUTE_STATE_MAP[this.currentState]
+    ) {
+      this.currentState = State.FEEDBACK;
+      this.persistInStorage();
+
+      window.location.href = ROUTE_STATE_MAP[State.FEEDBACK];
+      return;
+    }
+
     const expectedRoute = ROUTE_STATE_MAP[this.currentState];
 
     if (window.location.pathname !== expectedRoute) {
@@ -188,5 +221,4 @@ class stateMachineClass {
 //   skipInitialRestoreFromStorage: false
 // });
 
-
-export const stateMachine = new stateMachineClass({})
+export const stateMachine = new stateMachineClass({});

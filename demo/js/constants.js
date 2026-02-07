@@ -53,6 +53,7 @@ export const PHRASE_COOLDOWN_TIMESTAMP = "phrase-cooldown-timestamp";
 export const STATE_STORAGE_KEY = "state";
 export const UUID_STORAGE_KEY = "UUID";
 export const QUESTIONS_COUNT_KEY = "questions-count";
+export const ATTEMPTS_KEY = "attempts";
 
 export const QA_SET = [
   ["Who is this for?", "Those who arrive."],
@@ -82,6 +83,8 @@ export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
 
 export const SUCCESS_PROBABILITY = 1
 export const PORTAL_SUCCESS_PROBABILITY = 0.2
+
+export const MAX_ATTEMPTS = 8
 
 
 // metrics map
