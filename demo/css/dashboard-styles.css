@@ -166,19 +166,20 @@ button:hover {
 /* ===== SYSTEM CONFIG ===== */
 
 .system-config {
-  margin-top: 40px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
+  margin-top: 40px;
 }
 
 .config-container{
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 .config-row {
-  width: 60%;
+  width: 100%;
   border-bottom: 1px solid rgba(230, 242, 155, 0.15);
   padding: 14px 0;
 }
@@ -201,9 +202,10 @@ button:hover {
 .config-input {
   width: 100%;
   margin-bottom: 6px;
+  box-sizing: border-box;
 }
 
 .config-save {
-  width: 100%!important;
+  width: 100%;
   font-size: 10px;
 }
