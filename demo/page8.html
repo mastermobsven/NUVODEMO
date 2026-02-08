@@ -311,7 +311,7 @@
     </style>
   </head>
   <body>
-    <div class="site-wrapper">
+    <div id="site-wrapper" class="site-wrapper hidden">
       <div class="site-main">
         <div class="inner">
           <h1 id="text03" class="text-component instance-3">
@@ -336,8 +336,10 @@
       </div>
     </div>
     <script type="module">
-      import {stateMachine} from '/js/state-machine.js'
+      import { initializeStateMachine } from "/js/init.js";
       import {State} from '/js/constants.js'
+
+      const stateMachine = await initializeStateMachine()
 
       const giveFeedback = document.getElementById("give-feedback")
       giveFeedback.addEventListener("click", (e) => {

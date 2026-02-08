@@ -482,7 +482,7 @@
     </style>
   </head>
   <body>
-    <div class="site-wrapper">
+    <div id="site-wrapper" class="site-wrapper hidden">
       <div class="site-main">
         <div class="inner">
           <h1 id="text04" class="text-component instance-4">
@@ -517,9 +517,11 @@
     </div>
 
     <script type="module">
-      import {stateMachine} from "/js/state-machine.js"
+      import { initializeStateMachine } from "/js/init.js";
       import {State, ROUTE_STATE_MAP, QA_SET, METRICS_MAP} from "/js/constants.js"
       import {logMetric} from "/js/metrics.js"
+
+      const stateMachine = await initializeStateMachine()
 
       // validate questions limit
       if(stateMachine.getQuestionsCount() >= 3){

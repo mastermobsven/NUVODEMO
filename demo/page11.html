@@ -557,7 +557,7 @@
     </style>
   </head>
   <body>
-    <div class="site-wrapper">
+    <div id="site-wrapper" class="site-wrapper hidden">
       <div class="site-main">
         <div class="inner">
           <h1 id="text03" class="text-component instance-3">
@@ -572,6 +572,8 @@
     </div>
   </body>
   <script type="module">
-    import { stateMachine } from "/js/state-machine.js";
+    import { initializeStateMachine } from "/js/init.js";
+
+    const stateMachine = await initializeStateMachine()
   </script>
 </html>

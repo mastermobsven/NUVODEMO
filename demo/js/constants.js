@@ -48,13 +48,6 @@ export const ROUTE_STATE_MAP = {
   [State.DEMO_COMPLETED]: "/page11.html",
 };
 
-export const UNIQUE_PHRASE_STORAGE_KEY = "uniquePhrase";
-export const PHRASE_COOLDOWN_TIMESTAMP = "phrase-cooldown-timestamp";
-export const STATE_STORAGE_KEY = "state";
-export const UUID_STORAGE_KEY = "UUID";
-export const QUESTIONS_COUNT_KEY = "questions-count";
-export const ATTEMPTS_KEY = "attempts";
-
 export const QA_SET = [
   ["Who is this for?", "Those who arrive."],
   ["Is this a membership?", "No."],
@@ -79,15 +72,13 @@ export const QA_SET = [
   ["What should I do next?", "Continue."],
 ];
 
-export const COOLDOWN_MS = 60 * 1 * 1000; // 60 seconds
-
-export const SUCCESS_PROBABILITY_RATES = [0.30, 0.25, 0.20, 0.15, 0.10];
-export const MIN_SUCCES_PROBABILITY = 0.08
-
-export const PORTAL_SUCCESS_PROBABILITY = 0.2
-
-export const MAX_ATTEMPTS = 8
-
+// storage variables keys
+export const UNIQUE_PHRASE_STORAGE_KEY = "uniquePhrase";
+export const PHRASE_COOLDOWN_TIMESTAMP = "phrase-cooldown-timestamp";
+export const STATE_STORAGE_KEY = "state";
+export const UUID_STORAGE_KEY = "UUID";
+export const QUESTIONS_COUNT_KEY = "questions-count";
+export const ATTEMPTS_KEY = "attempts";
 
 // metrics map
 export const METRICS_MAP = {
@@ -100,6 +91,25 @@ export const METRICS_MAP = {
   TRANSFER_CLAIMS: "transferClaims"
 }
 
+// visitor fields map
 export const VISITOR_FIELDS_MAP = {
-  DEMO_COMPLETED: "demoCompleted"
+  DEMO_COMPLETED: "demoCompleted",
+  feedback: "feedback"
+}
+
+// constants map
+export const CONSTANTS_MAP = {
+  COOLDOWN_MS: "COOLDOWN_MS",
+  SUCCESS_PROBABILITY_RATES: "SUCCESS_PROBABILITY_RATES",
+  MIN_SUCCES_PROBABILITY: "MIN_SUCCES_PROBABILITY",
+  MAX_ATTEMPTS: "MAX_ATTEMPTS",
+  AVAIABLE_PORTALS: "AVAIABLE_PORTALS"
+}
+
+export const DEFAULT_STATE_MACHINE_CONFIG_VALUES = {
+  COOLDOWN_MS: 60 * 1 * 1000,
+  SUCCESS_PROBABILITY_RATES: [0.30, 0.25, 0.20, 0.15, 0.10],
+  MIN_SUCCES_PROBABILITY: 0.08,
+  MAX_ATTEMPTS: 8,
+  AVAIABLE_PORTALS: 8
 }

@@ -185,6 +185,10 @@ unloaded-script {
     z-index: 2;
 }
 
+.hidden {
+  display: none;
+}
+
 .site-main {
     --alignment: var(--site-language-alignment);
     --flex-alignment: var(--site-language-flex-alignment);

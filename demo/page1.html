@@ -358,7 +358,7 @@
   </head>
 
   <body>
-    <div class="site-wrapper">
+    <div id="site-wrapper" class="site-wrapper hidden">
       <div class="site-main">
         <div class="inner">
           <h1 id="text05" class="text-component instance-5">WELCOME VISITOR</h1>
@@ -383,7 +383,7 @@
     </div>
 
     <script type="module">
-      import { stateMachine } from "/js/state-machine.js";
+      import { initializeStateMachine } from "/js/init.js";
       import { State, METRICS_MAP } from "/js/constants.js";
       import { logMetric } from "/js/metrics.js";
       import {
@@ -391,18 +391,10 @@
         createVisitorSession,
       } from "/js/visitor-session.js";
 
+      const stateMachine = await initializeStateMachine()
+
       const phrase = document.getElementById("phrase");
       phrase.textContent = stateMachine.getUniquePhrase();
-
-      // handling visitor session through UUID
-      const visitorSession = await getVisitorSession(stateMachine.getUUID());
-      if (visitorSession == null) {
-        console.log("No session found for the visitor. Creating one ...");
-        await logMetric(METRICS_MAP.VISITORS);
-        await createVisitorSession(stateMachine.getUUID());
-      }else{
-        console.log("Session found for the visitor:", stateMachine.getUUID(), visitorSession)
-      }
 
       const proceedButton = document.getElementById("buttons02");
       proceedButton.addEventListener("click", async (e) => {

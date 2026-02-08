@@ -335,7 +335,7 @@
     </style>
   </head>
   <body>
-    <div class="site-wrapper">
+    <div id="site-wrapper" class="site-wrapper hidden">
       <div class="site-main">
         <div class="inner">
           <h1 id="text04" class="text-component instance-4">
@@ -358,9 +358,11 @@
       </div>
     </div>
     <script type="module">
-      import {stateMachine} from "/js/state-machine.js"
+      import { initializeStateMachine } from "/js/init.js";
       import {msToTime} from '/js/utils.js'
-      import {COOLDOWN_MS, State, ROUTE_STATE_MAP} from "/js/constants.js"
+      import {State, ROUTE_STATE_MAP} from "/js/constants.js"
+
+      const stateMachine = await initializeStateMachine()
 
       const timer = document.getElementById("timer")
       const phraseCooldownTimestamp = stateMachine.getPhraseCooldownTimestamp()
@@ -368,7 +370,7 @@
       function updateTimer(){
         const now = new Date()
         const elapsedMs = now - phraseCooldownTimestamp
-        const remaining = Math.max(0, COOLDOWN_MS - elapsedMs);
+        const remaining = Math.max(0, stateMachine.getConfig().COOLDOWN_MS - elapsedMs);
 
         if(remaining <= 0 && stateMachine.canTransitionTo(State.PHRASE_ISSUED)){
           stateMachine.resetPhraseAndRelatedAfterCooldownFinish()
