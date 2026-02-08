@@ -1,5 +1,5 @@
 import { retrieveFromStorage, storeInStorage } from "./use-storage.js";
-import { generateUniquePhrase, generateUUIDv4 } from "./generators.js";
+import { generateUniquePhrase } from "./generators.js";
 import {
   State,
   TRANSITIONS,
@@ -8,9 +8,7 @@ import {
   UNIQUE_PHRASE_STORAGE_KEY,
   PHRASE_COOLDOWN_TIMESTAMP,
   QUESTIONS_COUNT_KEY,
-  UUID_STORAGE_KEY,
   ATTEMPTS_KEY,
-  DEFAULT_STATE_MACHINE_CONFIG_VALUES,
   VISITOR_FIELDS_MAP,
 } from "./constants.js";
 
@@ -289,13 +287,3 @@ export class stateMachineClass {
     siteWrapper.classList.remove("hidden");
   }
 }
-
-//state machine in submit identity page
-// export const stateMachine = new stateMachineClass({
-//   currentState: State.SUBMIT_PHRASE,
-//   uniquePhrase: "2876desert",
-//   questionsCount: 0,
-//   phraseCooldownTimestamp: new Date(),
-//   UUID: "84bbe3cb-956f-43a9-bc49-997dc30276bf",
-//   skipInitialRestoreFromStorage: false
-// });

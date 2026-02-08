@@ -519,7 +519,7 @@
     <script type="module">
       import { initializeStateMachine } from "/js/init.js";
       import {State, ROUTE_STATE_MAP, QA_SET, METRICS_MAP} from "/js/constants.js"
-      import {logMetric} from "/js/metrics.js"
+      import {logMetric} from "/js/services/metrics.js"
 
       const stateMachine = await initializeStateMachine()
 

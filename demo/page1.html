@@ -385,11 +385,11 @@
     <script type="module">
       import { initializeStateMachine } from "/js/init.js";
       import { State, METRICS_MAP } from "/js/constants.js";
-      import { logMetric } from "/js/metrics.js";
+      import { logMetric } from "/js/services/metrics.js";
       import {
         getVisitorSession,
         createVisitorSession,
-      } from "/js/visitor-session.js";
+      } from "/js/services/visitor-session.js";
 
       const stateMachine = await initializeStateMachine()
 

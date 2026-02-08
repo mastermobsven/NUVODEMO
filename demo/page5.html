@@ -416,8 +416,8 @@
     <script type="module">
       import { initializeStateMachine } from "/js/init.js";
       import {State, METRICS_MAP} from "/js/constants.js"
-      import {logMetric} from "/js/metrics.js"
-      import {decreaseAvaiablePortals} from "/js/fetch-constants.js"
+      import {logMetric} from "/js/services/metrics.js"
+      import {decreaseAvaiablePortals} from "/js/services/fetch-constants.js"
 
       const stateMachine = await initializeStateMachine()
 

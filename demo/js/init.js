@@ -1,10 +1,10 @@
 import { UUID_STORAGE_KEY, METRICS_MAP } from "./constants.js";
-import { fetchConstants } from "./fetch-constants.js";
+import { fetchConstants } from "./services/fetch-constants.js";
 import { generateUUIDv4 } from "./generators.js";
 import {stateMachineClass} from "./state-machine.js"
 import { retrieveFromStorage, storeInStorage } from "./use-storage.js";
-import { createVisitorSession, getVisitorSession } from "./visitor-session.js"
-import {logMetric} from "./metrics.js"
+import { createVisitorSession, getVisitorSession } from "./services/visitor-session.js"
+import {logMetric} from "./services/metrics.js"
 
 export async function initializeStateMachine(){
     console.log("Initializing Machine ...")
