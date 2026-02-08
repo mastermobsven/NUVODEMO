@@ -1,4 +1,5 @@
 import { getMetrics, getDashboardPassword, getFeedback } from "./queries.js";
+import { loadSystemConfig } from "./control-system-config.js";
 
 const SESSION_TIMEOUT = 60 * 5 * 1000; // 5 minutes
 
@@ -8,18 +9,20 @@ const passwordInput = document.getElementById("password-input");
 const loginBtn = document.getElementById("login-btn");
 const loginError = document.getElementById("login-error");
 
-function setSession() {
+async function setSession() {
   const now = new Date().getTime();
   localStorage.setItem("session_start", now);
   showDashboard();
+  await loadSystemConfig()
 }
 
-function checkSession() {
+async function checkSession() {
   const sessionStart = localStorage.getItem("session_start");
   if (sessionStart) {
     const now = new Date().getTime();
     if (now - sessionStart < SESSION_TIMEOUT) {
       showDashboard();
+      await loadSystemConfig()
     } else {
       localStorage.removeItem("session_start");
     }
@@ -39,7 +42,7 @@ async function login() {
   try {
     const res = await getDashboardPassword();
     if (passwordInput.value === res.password) {
-      setSession();
+      await setSession();
     } else {
       loginError.classList.remove("hidden");
     }
@@ -54,7 +57,7 @@ async function login() {
 
 loginBtn.addEventListener("click", login);
 
-checkSession();
+await checkSession();
 
 /**
  * METRICS LOGIC

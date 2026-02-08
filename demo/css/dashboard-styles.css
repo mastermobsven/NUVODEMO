@@ -161,3 +161,49 @@ button:hover {
     color: #3a6a54;
     text-transform: uppercase;
 }
+
+
+/* ===== SYSTEM CONFIG ===== */
+
+.system-config {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.config-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.config-row {
+  width: 60%;
+  border-bottom: 1px solid rgba(230, 242, 155, 0.15);
+  padding: 14px 0;
+}
+
+.config-info {
+  margin-bottom: 8px;
+}
+
+.config-key {
+  font-size: 10px;
+  font-weight: 600;
+  display: block;
+}
+
+.config-desc {
+  font-size: 9px;
+  color: #3a6a54;
+}
+
+.config-input {
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.config-save {
+  width: 100%!important;
+  font-size: 10px;
+}
