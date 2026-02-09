@@ -370,7 +370,7 @@
       function updateTimer(){
         const now = new Date()
         const elapsedMs = now - phraseCooldownTimestamp
-        const remaining = Math.max(0, stateMachine.getConfig().COOLDOWN_MS - elapsedMs);
+        const remaining = Math.max(0, stateMachine.getCooldownMs() - elapsedMs);
 
         if(remaining <= 0 && stateMachine.canTransitionTo(State.PHRASE_ISSUED)){
           stateMachine.resetPhraseAndRelatedAfterCooldownFinish()

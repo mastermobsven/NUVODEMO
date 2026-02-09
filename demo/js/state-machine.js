@@ -10,6 +10,7 @@ import {
   QUESTIONS_COUNT_KEY,
   ATTEMPTS_KEY,
   VISITOR_FIELDS_MAP,
+  CONSTANTS_MAP,
 } from "./constants.js";
 
 export class stateMachineClass {
@@ -17,6 +18,7 @@ export class stateMachineClass {
   visitorSession;
   UUID;
 
+  cooldownMs
   currentState;
   uniquePhrase;
   questionsCount;
@@ -33,6 +35,7 @@ export class stateMachineClass {
     questionsCount = 0,
     phraseCooldownTimestamp = null,
     attempts = 0,
+    cooldownMs = null,
     successProbability = null,
     skipInitialRestoreFromStorage = false,
   }) {
@@ -75,9 +78,20 @@ export class stateMachineClass {
       });
     }
 
+    // initialize cooldownMs
+    if(cooldownMs != null){
+      this.cooldownMs = cooldownMs
+    }else{
+      this.cooldownMs = this.calculateCooldownMs({attempt: this.attempts})
+    }
+
     console.log(
       "[State Machine] Success Probability:",
       this.successProbability,
+    );
+    console.log(
+      "[State Machine] Cooldown time ms:",
+      this.cooldownMs,
     );
     console.log("[State Machine] Attempt:", this.attempts);
   }
@@ -110,6 +124,19 @@ export class stateMachineClass {
     const currentAttempts = this.attempts;
     this.attempts = currentAttempts + 1;
     this.persistInStorage();
+  }
+
+  getCooldownMs(){
+    return this.cooldownMs
+  }
+
+  calculateCooldownMs({attempt}){
+    if (attempt <= 0) {
+      return this.config[CONSTANTS_MAP.COOLDOWN_SEC_RATES][0] * 1000;
+    }
+    return (
+      this.config[CONSTANTS_MAP.COOLDOWN_SEC_RATES][attempt - 1] * 1000
+    );
   }
 
   getSuccessProbability() {
@@ -252,8 +279,10 @@ export class stateMachineClass {
   validateCurrentRoute() {
     if (this.visitorSession[VISITOR_FIELDS_MAP.DEMO_COMPLETED] === true) {
       
-      if (window.location.pathname === ROUTE_STATE_MAP[State.DEMO_COMPLETED])
-        return this.showContent();
+      if (window.location.pathname === ROUTE_STATE_MAP[State.DEMO_COMPLETED]){
+        this.showContent();
+        return
+      }
       
       this.currentState = State.DEMO_COMPLETED;
       this.persistInStorage();
