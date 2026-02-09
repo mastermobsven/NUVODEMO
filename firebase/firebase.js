@@ -3,14 +3,15 @@ import { getFirestore } from "firebase/firestore"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDjYIl5wfELGWZDv4k0xpUiwMnAnvznReU",
-  authDomain: "nuvo-demo-backend.firebaseapp.com",
-  projectId: "nuvo-demo-backend",
-  storageBucket: "nuvo-demo-backend.firebasestorage.app",
-  messagingSenderId: "1063326113087",
-  appId: "1:1063326113087:web:88777b6310c2744556c78a",
+apiKey: "AIzaSyBbNYn-9UrzXIqPrNk6ZLlgOJ1D8TWkYww",
+authDomain: "project-test-11b4f.firebaseapp.com",
+projectId: "project-test-11b4f",
+storageBucket: "project-test-11b4f.firebasestorage.app",
+messagingSenderId: "737462846320",
+appId: "1:737462846320:web:a1952e1b86d077e2d3c5b5"
 };
 
 
 const app = initializeApp(firebaseConfig);
+
 export const db = getFirestore(app);
