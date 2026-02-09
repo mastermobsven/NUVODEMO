@@ -292,7 +292,7 @@ export class stateMachineClass {
     }
 
     if (
-      this.attempts >= this.config.MAX_ATTEMPTS &&
+      this.attempts >= this.config[CONSTANTS_MAP.MAX_ATTEMPTS] &&
       window.location.pathname !== ROUTE_STATE_MAP[State.FEEDBACK]
     ) {
       this.currentState = State.FEEDBACK;
