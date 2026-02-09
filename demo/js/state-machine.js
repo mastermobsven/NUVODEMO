@@ -306,6 +306,7 @@ export class stateMachineClass {
 
     if (window.location.pathname !== expectedRoute) {
       window.location.replace(expectedRoute);
+	  return
     }
 
     this.showContent()
