@@ -564,6 +564,7 @@
 
         // validate questions limit and remaining time
         if((stateMachine.getQuestionsCount() >= 3 || remaining <= 0) && stateMachine.canTransitionTo(State.LIMIT_REACHED)){
+          stateMachine.setPhraseCooldownTimeStamp();
           stateMachine.transitionTo(State.LIMIT_REACHED)
           return
         }

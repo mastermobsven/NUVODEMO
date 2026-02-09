@@ -402,7 +402,6 @@
         if (stateMachine.canTransitionTo(State.QUESTIONS)) {
           await logMetric(METRICS_MAP.PHRASES_GENERATED);
           stateMachine.increaseAttempts()
-          stateMachine.setPhraseCooldownTimeStamp();
           stateMachine.setQuestionsCooldownTimestamp()
           stateMachine.transitionTo(State.QUESTIONS);
         }

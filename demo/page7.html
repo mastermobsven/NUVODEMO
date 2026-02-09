@@ -247,6 +247,7 @@
       const stateMachine = await initializeStateMachine()
 
       setTimeout(() => {
+        stateMachine.setPhraseCooldownTimeStamp();
         stateMachine.transitionTo(State.LIMIT_REACHED);
       }, 5000);
     </script>

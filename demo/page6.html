@@ -459,6 +459,7 @@
         asumeIdentity.textContent = "status: RESERVED";
 
         setTimeout(() => {
+          stateMachine.setPhraseCooldownTimeStamp();
           stateMachine.transitionTo(State.LIMIT_REACHED);
         }, 3000);
       });
