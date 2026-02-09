@@ -11,6 +11,7 @@ import {
   ATTEMPTS_KEY,
   VISITOR_FIELDS_MAP,
   CONSTANTS_MAP,
+  QUESTIONS_COOLDOWN_TIMESTAMP
 } from "./constants.js";
 
 export class stateMachineClass {
@@ -25,6 +26,7 @@ export class stateMachineClass {
   attempts;
   successProbability;
   phraseCooldownTimestamp;
+  questionsCooldownTimestamp;
 
   constructor({
     config,
@@ -34,6 +36,7 @@ export class stateMachineClass {
     uniquePhrase = generateUniquePhrase(),
     questionsCount = 0,
     phraseCooldownTimestamp = null,
+    questionsCooldownTimestamp = null,
     attempts = 0,
     cooldownMs = null,
     successProbability = null,
@@ -60,6 +63,7 @@ export class stateMachineClass {
     this.uniquePhrase = uniquePhrase;
     this.questionsCount = questionsCount;
     this.phraseCooldownTimestamp = phraseCooldownTimestamp;
+    this.questionsCooldownTimestamp = questionsCooldownTimestamp
     this.attempts = attempts;
 
     if (skipInitialRestoreFromStorage === false) {
@@ -166,6 +170,20 @@ export class stateMachineClass {
     this.persistInStorage();
   }
 
+  getQuestionsCooldownTimestamp() {
+    return this.questionsCooldownTimestamp;
+  }
+
+  setQuestionsCooldownTimestamp(){
+    const now = new Date();
+    this.questionsCooldownTimestamp = now;
+    this.persistInStorage();
+  }
+
+  getQuestionsPageDurationMs(){
+    return this.config[CONSTANTS_MAP.QUESTION_PAGE_DURATION_SEC] * 1000
+  }
+
   getPhraseCooldownTimestamp() {
     return this.phraseCooldownTimestamp;
   }
@@ -178,6 +196,7 @@ export class stateMachineClass {
 
   resetPhraseAndRelatedAfterCooldownFinish() {
     this.phraseCooldownTimestamp = null;
+    this.questionsCooldownTimestamp = null
     this.uniquePhrase = generateUniquePhrase();
     this.questionsCount = 0;
     this.persistInStorage();
@@ -208,6 +227,7 @@ export class stateMachineClass {
     storeInStorage(QUESTIONS_COUNT_KEY, this.questionsCount);
     storeInStorage(ATTEMPTS_KEY, this.attempts);
 
+    // phrase cooldown timestamp persist
     if (
       this.phraseCooldownTimestamp instanceof Date &&
       this.phraseCooldownTimestamp != null &&
@@ -221,6 +241,21 @@ export class stateMachineClass {
     } else {
       storeInStorage(PHRASE_COOLDOWN_TIMESTAMP, this.phraseCooldownTimestamp);
     }
+
+    // questions cooldown timestamp persist
+    if (
+      this.questionsCooldownTimestamp instanceof Date &&
+      this.questionsCooldownTimestamp != null &&
+      this.questionsCooldownTimestamp != "" &&
+      Number.isNaN(this.questionsCooldownTimestamp) === false
+    ) {
+      storeInStorage(
+        QUESTIONS_COOLDOWN_TIMESTAMP,
+        this.questionsCooldownTimestamp.toISOString(),
+      );
+    } else {
+      storeInStorage(QUESTIONS_COOLDOWN_TIMESTAMP, this.questionsCooldownTimestamp);
+    }
   }
 
   restoreFromStorage() {
@@ -229,6 +264,9 @@ export class stateMachineClass {
     const questionsCount = retrieveFromStorage(QUESTIONS_COUNT_KEY);
     const phraseCooldownTimestamp = retrieveFromStorage(
       PHRASE_COOLDOWN_TIMESTAMP,
+    );
+    const questionsCooldownTimestamp = retrieveFromStorage(
+      QUESTIONS_COOLDOWN_TIMESTAMP,
     );
     const attempts = retrieveFromStorage(ATTEMPTS_KEY);
 
@@ -251,6 +289,7 @@ export class stateMachineClass {
       this.questionsCount = parseInt(questionsCount);
     }
 
+    // phrase cooldown timestamp restore
     if (
       typeof phraseCooldownTimestamp === "string" &&
       phraseCooldownTimestamp.length > 0 &&
@@ -262,6 +301,19 @@ export class stateMachineClass {
         this.phraseCooldownTimestamp = value;
       }
     }
+
+    // questions cooldown timestamp restore
+    if (
+      typeof questionsCooldownTimestamp === "string" &&
+      questionsCooldownTimestamp.length > 0 &&
+      questionsCooldownTimestamp != "null" &&
+      questionsCooldownTimestamp != null
+    ) {
+      const value = new Date(questionsCooldownTimestamp);
+      if (!Number.isNaN(value.getTime())) {
+        this.questionsCooldownTimestamp = value;
+      }
+    }
   }
 
   reset() {
@@ -269,6 +321,7 @@ export class stateMachineClass {
     this.uniquePhrase = generateUniquePhrase();
     this.questionsCount = 0;
     this.phraseCooldownTimestamp = null;
+    this.questionsCooldownTimestamp = null;
     this.attempts = 0;
     this.successProbability = this.calculateSuccessProbability({
       attempt: this.attempts,

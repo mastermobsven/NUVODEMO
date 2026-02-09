@@ -24,6 +24,11 @@ export const CONSTANTS_MODEL = {
     description: "Success probability rates per attempt",
     value: [0.3, 0.25, 0.2, 0.15, 0.1],
   },
+
+  QUESTION_PAGE_DURATION_SEC: {
+    description: "Duration of questions page",
+    value: 60,
+  }
 }
 
 export const METRICS_MODEL = {

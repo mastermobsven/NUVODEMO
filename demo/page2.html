@@ -523,10 +523,7 @@
 
       const stateMachine = await initializeStateMachine()
 
-      // validate questions limit
-      if(stateMachine.getQuestionsCount() >= 3){
-        stateMachine.transitionTo(State.LIMIT_REACHED)
-      }
+      verifyPageAvaiability()
 
       const select = document.getElementById("questionSelect");
       const responseBox = document.getElementById("responseBox");
@@ -553,11 +550,24 @@
         
         await logMetric(METRICS_MAP.QUESTIONS_ASKED)
 
-        // validate questions limit
-        if(stateMachine.getQuestionsCount() >= 3){
-          stateMachine.transitionTo(State.LIMIT_REACHED)
-        }
+        verifyPageAvaiability()
       });
+
+      setInterval(verifyPageAvaiability, 1000)
+
+      function verifyPageAvaiability(){
+        // calculate remaining time of question page
+        const now = new Date()
+        const questionsCooldownTimestamp = stateMachine.getQuestionsCooldownTimestamp()
+        const elapsedMs = now - questionsCooldownTimestamp
+        const remaining = Math.max(0, stateMachine.getQuestionsPageDurationMs() - elapsedMs);
+
+        // validate questions limit and remaining time
+        if((stateMachine.getQuestionsCount() >= 3 || remaining <= 0) && stateMachine.canTransitionTo(State.LIMIT_REACHED)){
+          stateMachine.transitionTo(State.LIMIT_REACHED)
+          return
+        }
+      }
     </script>
   </body>
 </html>
