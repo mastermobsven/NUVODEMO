@@ -155,5 +155,3 @@ The project includes a simple password-protected dashboard.
 ---
 
 🚀 Enjoy exploring the NUVO demo!
-
-```
