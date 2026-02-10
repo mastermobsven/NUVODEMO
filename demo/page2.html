@@ -520,6 +520,7 @@
       import { initializeStateMachine } from "/js/init.js";
       import {State, ROUTE_STATE_MAP, QA_SET, METRICS_MAP} from "/js/constants.js"
       import {logMetric} from "/js/services/metrics.js"
+      import {msToTime} from "/js/utils.js"
 
       const stateMachine = await initializeStateMachine()
 
@@ -561,6 +562,9 @@
         const questionsCooldownTimestamp = stateMachine.getQuestionsCooldownTimestamp()
         const elapsedMs = now - questionsCooldownTimestamp
         const remaining = Math.max(0, stateMachine.getQuestionsPageDurationMs() - elapsedMs);
+
+        const { hours, minutes, seconds } = msToTime(remaining);
+        console.log("Remaining time:", `${minutes}:${String(seconds).padStart(2, "0")}`)
 
         // validate questions limit and remaining time
         if((stateMachine.getQuestionsCount() >= 3 || remaining <= 0) && stateMachine.canTransitionTo(State.LIMIT_REACHED)){

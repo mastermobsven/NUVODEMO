@@ -424,7 +424,7 @@
       const returnButton = document.getElementById("return-button")
       returnButton.addEventListener("click", (e) => {
         e.preventDefault()
-
+        stateMachine.setPhraseCooldownTimeStamp();
         stateMachine.transitionTo(State.LIMIT_REACHED)
       })
 
