@@ -151,12 +151,8 @@ export class stateMachineClass {
     if (attempt <= 0) {
       return this.config.SUCCESS_PROBABILITY_RATES[0];
     }
-    if (attempt >= 6) {
-      return this.config.MIN_SUCCES_PROBABILITY;
-    }
     return (
-      this.config.SUCCESS_PROBABILITY_RATES[attempt - 1] ??
-      this.config.MIN_SUCCES_PROBABILITY
+      this.config.SUCCESS_PROBABILITY_RATES[attempt - 1]
     );
   }
 
@@ -345,7 +341,7 @@ export class stateMachineClass {
     }
 
     if (
-      this.attempts >= this.config[CONSTANTS_MAP.MAX_ATTEMPTS] &&
+      this.attempts > this.config[CONSTANTS_MAP.MAX_ATTEMPTS] &&
       window.location.pathname !== ROUTE_STATE_MAP[State.FEEDBACK]
     ) {
       this.currentState = State.FEEDBACK;

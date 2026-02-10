@@ -15,11 +15,6 @@ export const CONSTANTS_MODEL = {
     value: 8,
   },
 
-  MIN_SUCCESS_PROBABILITY: {
-    description: "Minimum success probability allowed by the system",
-    value: 0.08,
-  },
-
   SUCCESS_PROBABILITY_RATES: {
     description: "Success probability rates per attempt",
     value: [0.3, 0.25, 0.2, 0.15, 0.1],
