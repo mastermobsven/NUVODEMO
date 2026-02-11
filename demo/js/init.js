@@ -15,6 +15,7 @@ export async function initializeStateMachine(){
         const stateMachine = new stateMachineClass({config: config, visitorSession: visitorSession, UUID:UUID})
         if(resetMachine === true){
             stateMachine.reset()
+            console.log("State Machine reseted due to corrupted session.")
         }
         return stateMachine
     }catch(err){
