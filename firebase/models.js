@@ -2,12 +2,12 @@ export const CONSTANTS_MODEL = {
   AVAILABLE_PORTALS: {
     description:
       "Number of portals available for the demo. Each user that takes a portal, decrease this number.",
-    value: 1,
+    value: 5,
   },
 
   COOLDOWN_SEC_RATES: {
     description: "Cooldown in seconds for each attempt",
-    value: [10, 15, 30, 30, 60, 60, 60, 60],
+    value: [30, 30, 30, 30, 30, 30, 30, 30],
   },
 
   MAX_ATTEMPTS: {
@@ -22,7 +22,7 @@ export const CONSTANTS_MODEL = {
 
   QUESTION_PAGE_DURATION_SEC: {
     description: "Duration of questions page",
-    value: 60,
+    value: 30,
   },
 
   MAX_QUESTIONS_PER_SESSION: {

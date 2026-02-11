@@ -62,17 +62,38 @@
       </div>
 
       <div class="system-config">
-        <h1 style="text-align: center;">System Configuration</h1>
+        <h1 style="text-align: center; margin-bottom: -20px;">System Configuration</h1>
         <div id="config-container" class="config-container"></div>
+        <button
+          id="reset-demo-button"
+          style="
+            background-color: rgba(255, 0, 0, 0.262);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+          "
+        >
+          Reset Demo
+        </button>
       </div>
 
       <!-- Feedback -->
       <div class="feedback-section">
-        <h1 style="text-align: center; width: 100%">Users Feedback</h1>
+        <h1 style="text-align: center; width: 100%; margin-top: 50px;">Users Feedback</h1>
         <div id="feedback-container"></div>
       </div>
     </div>
 
-    <script src="/js/dashboard/dashboard.js" type="module"></script>
+    <script src="./js/dashboard/dashboard.js" type="module"></script>
+    <script type="module">
+      import {resetDemo} from "./js/dashboard/reset-demo.js"
+      const resetButton = document.getElementById("reset-demo-button")
+
+      resetButton.addEventListener("click", async () => {
+        if(confirm("This operation will delete all data stored and restart everything to its default values.")){
+          await resetDemo()
+        }
+      })
+    </script>
   </body>
 </html>
