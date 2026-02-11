@@ -119,7 +119,7 @@ async function loadFeedback() {
     renderFeedbackList(feedbackList);
   } catch (error) {
     console.error("Error loading feedback:", error);
-    feedbackContainer.innerHTML = "<p class='error'>Error loading data</p>";
+    feedbackContainer.innerHTML = "<p class='error' style='text-align:center'>Error loading data</p>";
   }
 }
 
@@ -186,7 +186,7 @@ function renderFeedbackList(items) {
   container.innerHTML = "";
 
   if (items.length === 0) {
-    container.innerHTML = "<p>No feedback available.</p>";
+    container.innerHTML = "<p style='text-align:center'>No feedback available.</p>";
     return;
   }
 
