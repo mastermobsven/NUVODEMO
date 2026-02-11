@@ -153,5 +153,4 @@ The project includes a simple password-protected dashboard.
 * Firebase Hosting is intentionally not used in this setup.
 
 ---
-
 🚀 Enjoy exploring the NUVO demo!
