@@ -527,15 +527,15 @@
     </div>
 
     <script type="module">
-      import { initializeStateMachine } from "/js/init.js";
+      import { initializeStateMachine } from "./js/init.js";
       import {
         State,
         ROUTE_STATE_MAP,
         QA_SET,
         METRICS_MAP,
-      } from "/js/constants.js";
-      import { logMetric } from "/js/services/metrics.js";
-      import { msToTime } from "/js/utils.js";
+      } from "./js/constants.js";
+      import { logMetric } from "./js/services/metrics.js";
+      import { msToTime } from "./js/utils.js";
 
       const stateMachine = await initializeStateMachine();
       const MAX_QUESTIONS_PER_SESSION =
