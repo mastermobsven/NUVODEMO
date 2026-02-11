@@ -49,28 +49,49 @@ export const ROUTE_STATE_MAP = {
 };
 
 export const QA_SET = [
-  ["Who is this for?", "Those who arrive."],
-  ["Is this a membership?", "No."],
-  ["Is there value in an identity?", "Only to the holder."],
-  ["Can an identity be transferred?", "Yes."],
-  ["How many identities exist?", "Fewer than you think."],
-  ["Can I try again later?", "You may return."],
-  ["Why are questions limited?", "So answers matter."],
-  ["Who runs this system?", "The system runs itself."],
-  ["What happens after I receive an identity?", "You wait."],
-  ["What happens if I don’t receive one?", "You decide what to do next."],
-  ["Is this social media?", "No."],
-  ["Is this art?", "That depends on you."],
-  ["Is this serious?", "Entirely."],
-  ["Can I lose an identity?", "Yes."],
-  ["Can I hold more than one?", "No."],
-  ["Is this anonymous?", "Yes."],
-  ["How long has this existed?", "Long enough."],
-  ["Why am I here?", "You arrived."],
-  ["What is NUVO?", "A system."],
-  ["What is the door?", "You are at it."],
-  ["What should I do next?", "Continue."],
+  ["What is this place?", "It’s a deliberately small corner of the internet built around presence rather than performance. It exists to explore what happens when people are allowed to show up without being shaped by reaction."],
+
+  ["Who is this meant for?", "It’s for people who feel the cost of being online more than the benefit. Those who still want conversation, curiosity, and signal but not the constant pressure to be seen."],
+
+  ["Why does this exist at all?", "Because most digital spaces now reward speed, volume, and certainty. This system was created to see what happens when those incentives are removed."],
+
+  ["What is an identity in this system?", "An identity is how you are recognized here, not by profile or status, but by how you engage over time. It’s a way to participate without turning yourself into a product."],
+
+  ["Why is access restricted?", "Because openness at scale changes behavior. Limiting access isn’t about exclusion, it’s about protecting the kind of interaction this space is built for."],
+
+  ["Is this a community?", "Not in the traditional sense. There are no audiences here, only people sharing a space for a period of time."],
+
+  ["What do people actually do once inside?", "They observe, contribute, respond, and sometimes say very little. The system is designed so that silence is as acceptable as participation."],
+
+  ["Is this anonymous?", "Yes, in the sense that real-world identity isn’t the point here. What matters is how someone shows up, not who they are elsewhere."],
+
+  ["Is this social media?", "No. Nothing here is optimized for growth, visibility, or engagement loops. If you’re looking for reach, this won’t help you."],
+
+  ["Why does the system feel restrained?", "Because limits change behavior. When everything isn’t possible, attention becomes more intentional."],
+
+  ["What does the system pay attention to?", "Patterns, not moments. Over time, the system notices what someone returns to not what they perform."],
+
+  ["What doesn’t the system care about?", "Popularity, speed, and dominance. Loudness carries no advantage here."],
+
+  ["What happens after someone receives an identity?", "They’re allowed to enter the space and experience it firsthand. Nothing is unlocked immediately. Understanding comes through time, not instruction."],
+
+  ["What if someone doesn’t receive one?", "Then this experience ends here. Some things aren’t meant to be sampled endlessly. There will be other opportunities once the system is established."],
+
+  ["Can an identity disappear?", "Yes. This system doesn’t preserve everything by default. Presence requires upkeep."],
+
+  ["Can someone hold more than one identity?", "No. This space isn’t designed for experimentation through duplication. It values continuity over optionality."],
+
+  ["Does this system change over time?", "Slowly, and only in response to real use. Stability matters more than novelty."],
+
+  ["Is this art, technology, or philosophy?", "It borrows from all three, but belongs fully to none. What it becomes depends on how it’s used."],
+
+  ["Who decides what’s important here?", "No single person does. The system enforces boundaries, but meaning emerges from participation."],
+
+  ["Will identities be asked to provide personal information?", "No.  The system will never monetize its holders to algorithms and marketing."],
+
+  ["What happens next?", "If the system allows it, you’ll step through the Door and see for yourself.\n\nIf not, you’ll leave with a sense that this place exists — and that may be enough for now."]
 ];
+
 
 // storage variables keys
 export const UNIQUE_PHRASE_STORAGE_KEY = "uniquePhrase";
@@ -105,14 +126,15 @@ export const CONSTANTS_MAP = {
   MIN_SUCCES_PROBABILITY: "MIN_SUCCES_PROBABILITY",
   MAX_ATTEMPTS: "MAX_ATTEMPTS",
   AVAIABLE_PORTALS: "AVAIABLE_PORTALS",
-  QUESTION_PAGE_DURATION_SEC: "QUESTION_PAGE_DURATION_SEC"
+  QUESTION_PAGE_DURATION_SEC: "QUESTION_PAGE_DURATION_SEC",
+  MAX_QUESTIONS_PER_SESSION: "MAX_QUESTIONS_PER_SESSION"
 }
 
 export const DEFAULT_STATE_MACHINE_CONFIG_VALUES = {
-  COOLDOWN_SEC_RATES: [10, 15, 30, 30, 60, 60, 60],
-  SUCCESS_PROBABILITY_RATES: [0.30, 0.25, 0.20, 0.15, 0.10],
-  MIN_SUCCES_PROBABILITY: 0.08,
+  COOLDOWN_SEC_RATES: [10, 15, 30, 30, 60, 60, 60, 60],
+  SUCCESS_PROBABILITY_RATES: [0.30, 0.25, 0.20, 0.15, 0.10, 0.10, 0.8, 0.85],
   MAX_ATTEMPTS: 8,
   AVAIABLE_PORTALS: 8,
-  QUESTION_PAGE_DURATION_SEC: 60
+  QUESTION_PAGE_DURATION_SEC: 60,
+  MAX_QUESTIONS_PER_SESSION: 7
 }

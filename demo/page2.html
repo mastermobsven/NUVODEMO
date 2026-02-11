@@ -38,10 +38,10 @@
           border-color 0.25s ease;
       }
 
-      .system-select:hover{
+      .system-select:hover {
         cursor: pointer;
       }
-      .system-select:focus{
+      .system-select:focus {
         border: 0;
         outline: 0;
       }
@@ -479,6 +479,15 @@
           gap: 0.5625rem;
         }
       }
+
+      .response-box{
+          height: auto!important;
+          overflow: auto!important;
+          text-overflow: unset!important;
+          white-space: unset!important;
+          display: block!important;
+          text-align: left!important;
+        }
     </style>
   </head>
   <body>
@@ -494,7 +503,8 @@
             </li>
           </ul>
           <h1 id="text04" class="text-component instance-4">
-            FOR INFORMATION, FEEL FREE TO review the questions BELOW. you MAY REVIEW 7 PER SESSION.
+            FOR INFORMATION, FEEL FREE TO review the questions BELOW. you MAY
+            REVIEW 7 PER SESSION.
           </h1>
           <h1 id="text03" class="text-component instance-3">Question</h1>
           <ul id="buttons02" class="buttons-component instance-2">
@@ -507,36 +517,42 @@
           <h1 id="text05" class="text-component instance-5">RESPONSE</h1>
           <ul id="buttons03" class="buttons-component instance-3">
             <li>
-              <a id="responseBox" href="#" class="n01" role="button"
+              <a id="responseBox" href="#" class="n01 response-box" role="button"
                 >NOT INHERENTLY.</a
               >
             </li>
           </ul>
-          <h1 id="text01" class="text-component instance-1">
-            3 INQUIRIES PERMITTED PER CYCLE.
-          </h1>
         </div>
       </div>
     </div>
 
     <script type="module">
       import { initializeStateMachine } from "/js/init.js";
-      import {State, ROUTE_STATE_MAP, QA_SET, METRICS_MAP} from "/js/constants.js"
-      import {logMetric} from "/js/services/metrics.js"
-      import {msToTime} from "/js/utils.js"
+      import {
+        State,
+        ROUTE_STATE_MAP,
+        QA_SET,
+        METRICS_MAP,
+      } from "/js/constants.js";
+      import { logMetric } from "/js/services/metrics.js";
+      import { msToTime } from "/js/utils.js";
 
-      const stateMachine = await initializeStateMachine()
+      const stateMachine = await initializeStateMachine();
+      const MAX_QUESTIONS_PER_SESSION =
+        stateMachine.getMaxQuestionsPerSession();
 
-      verifyPageAvaiability()
+      verifyPageAvaiability();
 
       const select = document.getElementById("questionSelect");
       const responseBox = document.getElementById("responseBox");
-      const identityGeneratorLink = document.getElementById("identity-generator-link")
+      const identityGeneratorLink = document.getElementById(
+        "identity-generator-link",
+      );
 
       identityGeneratorLink.addEventListener("click", (e) => {
-        e.preventDefault()
-        stateMachine.transitionTo(State.SUBMIT_PHRASE)
-      })
+        e.preventDefault();
+        stateMachine.transitionTo(State.SUBMIT_PHRASE);
+      });
 
       // Load Questions
       QA_SET.forEach((item, index) => {
@@ -550,30 +566,41 @@
       select.addEventListener("change", async () => {
         const index = select.value;
         responseBox.textContent = index === "" ? "—" : QA_SET[index][1];
-        stateMachine.increaseQuestionsCount()
-        
-        await logMetric(METRICS_MAP.QUESTIONS_ASKED)
+        stateMachine.increaseQuestionsCount();
 
-        verifyPageAvaiability()
+        await logMetric(METRICS_MAP.QUESTIONS_ASKED);
+
+        verifyPageAvaiability();
       });
 
-      setInterval(verifyPageAvaiability, 1000)
+      setInterval(verifyPageAvaiability, 1000);
 
-      function verifyPageAvaiability(){
+      function verifyPageAvaiability() {
         // calculate remaining time of question page
-        const now = new Date()
-        const questionsCooldownTimestamp = stateMachine.getQuestionsCooldownTimestamp()
-        const elapsedMs = now - questionsCooldownTimestamp
-        const remaining = Math.max(0, stateMachine.getQuestionsPageDurationMs() - elapsedMs);
+        const now = new Date();
+        const questionsCooldownTimestamp =
+          stateMachine.getQuestionsCooldownTimestamp();
+        const elapsedMs = now - questionsCooldownTimestamp;
+        const remaining = Math.max(
+          0,
+          stateMachine.getQuestionsPageDurationMs() - elapsedMs,
+        );
 
         const { hours, minutes, seconds } = msToTime(remaining);
-        console.log("Remaining time:", `${minutes}:${String(seconds).padStart(2, "0")}`)
+        console.log(
+          "Remaining time:",
+          `${minutes}:${String(seconds).padStart(2, "0")}`,
+        );
 
         // validate questions limit and remaining time
-        if((stateMachine.getQuestionsCount() >= 3 || remaining <= 0) && stateMachine.canTransitionTo(State.LIMIT_REACHED)){
+        if (
+          (stateMachine.getQuestionsCount() >= MAX_QUESTIONS_PER_SESSION ||
+            remaining <= 0) &&
+          stateMachine.canTransitionTo(State.LIMIT_REACHED)
+        ) {
           stateMachine.setPhraseCooldownTimeStamp();
-          stateMachine.transitionTo(State.LIMIT_REACHED)
-          return
+          stateMachine.transitionTo(State.LIMIT_REACHED);
+          return;
         }
       }
     </script>

@@ -7,7 +7,7 @@ export const CONSTANTS_MODEL = {
 
   COOLDOWN_SEC_RATES: {
     description: "Cooldown in seconds for each attempt",
-    value: [10, 15, 30, 30, 60, 60, 60],
+    value: [10, 15, 30, 30, 60, 60, 60, 60],
   },
 
   MAX_ATTEMPTS: {
@@ -17,12 +17,17 @@ export const CONSTANTS_MODEL = {
 
   SUCCESS_PROBABILITY_RATES: {
     description: "Success probability rates per attempt",
-    value: [0.3, 0.25, 0.2, 0.15, 0.1],
+    value: [0.3, 0.25, 0.2, 0.15, 0.1, 0.1, 0.8, 0.85],
   },
 
   QUESTION_PAGE_DURATION_SEC: {
     description: "Duration of questions page",
     value: 60,
+  },
+
+  MAX_QUESTIONS_PER_SESSION: {
+    value: 7,
+    description: "Maximun number of questions an user can make per session."
   }
 }
 

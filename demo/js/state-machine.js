@@ -71,8 +71,7 @@ export class stateMachineClass {
     }
 
     this.persistInStorage();
-    this.showContent()
-    //this.validateCurrentRoute();
+    this.validateCurrentRoute();
 
     // initialize successProbability
     if (successProbability != null) {
@@ -123,6 +122,10 @@ export class stateMachineClass {
 
   getAttempts() {
     return this.attempts;
+  }
+
+  getMaxQuestionsPerSession(){
+    return this.config[CONSTANTS_MAP.MAX_QUESTIONS_PER_SESSION]
   }
 
   increaseAttempts() {
