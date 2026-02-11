@@ -594,7 +594,7 @@
 
         // validate questions limit and remaining time
         if (
-          (stateMachine.getQuestionsCount() >= MAX_QUESTIONS_PER_SESSION ||
+          (stateMachine.getQuestionsCount() > MAX_QUESTIONS_PER_SESSION ||
             remaining <= 0) &&
           stateMachine.canTransitionTo(State.LIMIT_REACHED)
         ) {
