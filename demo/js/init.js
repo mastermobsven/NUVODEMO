@@ -9,10 +9,13 @@ import {logMetric} from "./services/metrics.js"
 export async function initializeStateMachine(){
     console.log("Initializing Machine ...")
     try{
-        const {UUID, visitorSession} = await initializeUserSession()
+        const {UUID, visitorSession, resetMachine} = await initializeUserSession()
         const config = await initializeConfig()
     
         const stateMachine = new stateMachineClass({config: config, visitorSession: visitorSession, UUID:UUID})
+        if(resetMachine === true){
+            stateMachine.reset()
+        }
         return stateMachine
     }catch(err){
         console.log("Error initializing machine:", err)
@@ -23,22 +26,35 @@ export async function initializeStateMachine(){
 export async function initializeUserSession(){
     try{
         let UUID = retrieveFromStorage(UUID_STORAGE_KEY)
+        let session = null
     
         // if not session exists
         if(UUID == null){
             console.log("No session found for the visitor. Creating one ...");
             UUID = generateUUIDv4()
             await createVisitorSession(UUID)
-            const session = await getVisitorSession(UUID)
+            session = await getVisitorSession(UUID)
             storeInStorage(UUID_STORAGE_KEY, UUID)
             await logMetric(METRICS_MAP.VISITORS);
-            return {UUID:UUID, visitorSession: session}
+            return {UUID:UUID, visitorSession: session, resetMachine: false}
         }
     
         // if session exists
-        const session = await getVisitorSession(UUID)
-        console.log("Session found for the visitor:", UUID, session)
-        return {UUID:UUID, visitorSession: session}
+        session = await getVisitorSession(UUID)
+        if(session != null){
+            console.log("Session found for the visitor:", UUID, session)
+            return {UUID:UUID, visitorSession: session, resetMachine: false}
+        }
+
+        //if session corrupted, create a new one
+        console.log("Session corrupted. Creating a new one ...");
+        UUID = generateUUIDv4()
+        await createVisitorSession(UUID)
+        session = await getVisitorSession(UUID)
+        storeInStorage(UUID_STORAGE_KEY, UUID)
+        await logMetric(METRICS_MAP.VISITORS);
+        return {UUID:UUID, visitorSession: session, resetMachine: true}
+
     }catch(err){
         console.log("Error initializing user session:", err)
         return null

@@ -327,6 +327,7 @@ export class stateMachineClass {
       attempt: this.attempts,
     });
     this.persistInStorage();
+    this.validateCurrentRoute()
   }
 
   validateCurrentRoute() {
