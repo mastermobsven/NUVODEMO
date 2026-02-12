@@ -323,13 +323,14 @@
             </span>
           </div>
           <h1 id="text02" class="text-component instance-2">
-            SYSTEM ACCESS NOT AVAILABLE IN DEMO MODE. WHAT YOU EXPERIENCED WAS THE BOUNDARY. NOT THE SPACE ITSELF.
-            PLEASE FEEL FREE TO LEAVE FEEDBACK.
+            ACCESS NOT AVAILABLE IN DEMO MODE. <br/>YOU'VE SEEN THE EDGE OF THE
+            SYSTEM, NOT THE SYSTEM ITSELF. <br/>YOUR FEEDBACK HELPS SHAPE WHAT OPENS
+            NEXT.
           </h1>
           <ul id="buttons01" class="buttons-component instance-1">
             <li>
               <a id="give-feedback" href="#" class="n01" role="button"
-                >GIVE FEEDBACK</a
+                >LEAVE FEEDBACK</a
               >
             </li>
           </ul>
@@ -338,15 +339,15 @@
     </div>
     <script type="module">
       import { initializeStateMachine } from "./js/init.js";
-      import {State} from './js/constants.js'
+      import { State } from "./js/constants.js";
 
-      const stateMachine = await initializeStateMachine()
+      const stateMachine = await initializeStateMachine();
 
-      const giveFeedback = document.getElementById("give-feedback")
+      const giveFeedback = document.getElementById("give-feedback");
       giveFeedback.addEventListener("click", (e) => {
-        e.preventDefault()
-        stateMachine.transitionTo(State.FEEDBACK)
-      })
+        e.preventDefault();
+        stateMachine.transitionTo(State.FEEDBACK);
+      });
     </script>
   </body>
 </html>
