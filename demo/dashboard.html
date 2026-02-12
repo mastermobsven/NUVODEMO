@@ -91,6 +91,8 @@
 
       resetButton.addEventListener("click", async () => {
         if(confirm("This operation will delete all data stored and restart everything to its default values.")){
+          resetButton.textContent = "Loading ..."
+          resetButton.disabled = true
           await resetDemo()
         }
       })
