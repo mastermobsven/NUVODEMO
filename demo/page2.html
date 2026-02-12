@@ -522,7 +522,8 @@
                 href="#"
                 class="n01 response-box"
                 role="button"
-              >-</a>
+                >-</a
+              >
             </li>
           </ul>
         </div>
@@ -565,18 +566,32 @@
         select.appendChild(option);
       });
 
+      const askedQuestions = new Set();
+
       // Show Answer
       select.addEventListener("change", async () => {
-        stateMachine.increaseQuestionsCount();
-        const res = verifyPageAvaiability();
+        const index = select.value;
 
-        if(res === true){
-          const index = select.value;
-          responseBox.textContent = index === "" ? "—" : QA_SET[index][1];
-  
-          await logMetric(METRICS_MAP.QUESTIONS_ASKED);
+        // evoid counting empty selection
+        if (index === "") {
+          responseBox.textContent = "—";
+          return;
         }
 
+        // evoid counting already asked questions
+        if (askedQuestions.has(index)) {
+          responseBox.textContent = QA_SET[index][1];
+          return;
+        }
+
+        responseBox.textContent = index === "" ? "—" : QA_SET[index][1];
+
+        askedQuestions.add(index);
+        stateMachine.increaseQuestionsCount();
+
+        await logMetric(METRICS_MAP.QUESTIONS_ASKED);
+
+        verifyPageAvaiability();
       });
 
       setInterval(verifyPageAvaiability, 1000);
@@ -608,8 +623,6 @@
           stateMachine.transitionTo(State.LIMIT_REACHED);
           return;
         }
-
-        return true
       }
     </script>
   </body>
