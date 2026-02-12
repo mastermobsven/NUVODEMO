@@ -567,13 +567,16 @@
 
       // Show Answer
       select.addEventListener("change", async () => {
-        const index = select.value;
-        responseBox.textContent = index === "" ? "—" : QA_SET[index][1];
         stateMachine.increaseQuestionsCount();
+        const res = verifyPageAvaiability();
 
-        await logMetric(METRICS_MAP.QUESTIONS_ASKED);
+        if(res === true){
+          const index = select.value;
+          responseBox.textContent = index === "" ? "—" : QA_SET[index][1];
+  
+          await logMetric(METRICS_MAP.QUESTIONS_ASKED);
+        }
 
-        verifyPageAvaiability();
       });
 
       setInterval(verifyPageAvaiability, 1000);
@@ -605,6 +608,8 @@
           stateMachine.transitionTo(State.LIMIT_REACHED);
           return;
         }
+
+        return true
       }
     </script>
   </body>
