@@ -445,7 +445,13 @@
           </h1>
           <ul id="buttons02" class="buttons-component instance-2">
             <li>
-              <a href="#" class="n01" role="button">SAVE</a>
+              <a
+                href="/images/placards/image01.jpg"
+                class="n01"
+                role="button"
+                download="NUVO-Identity-Placard.jpg"
+                >SAVE</a
+              >
             </li>
           </ul>
           <ul id="buttons03" class="buttons-component instance-3">
@@ -460,15 +466,15 @@
     </div>
     <script type="module">
       import { initializeStateMachine } from "./js/init.js";
-      import {State} from './js/constants.js'
+      import { State } from "./js/constants.js";
 
-      const stateMachine = await initializeStateMachine()
+      const stateMachine = await initializeStateMachine();
 
-      const login = document.getElementById("login")
+      const login = document.getElementById("login");
       login.addEventListener("click", (e) => {
-        e.preventDefault()
-        stateMachine.transitionTo(State.DEMO_WALL)
-      })
+        e.preventDefault();
+        stateMachine.transitionTo(State.DEMO_WALL);
+      });
     </script>
   </body>
 </html>
