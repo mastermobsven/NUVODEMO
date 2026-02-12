@@ -363,7 +363,8 @@
         <div class="inner">
           <h1 id="text05" class="text-component instance-5">WELCOME VISITOR</h1>
           <h1 id="text02" class="text-component instance-2">
-            A TOKEN PHRASE HAS BEEN ISSUED TO YOU. THIS DOES NOT GRANT ACCESS, IT GRANTS A CHANCE.
+            A TOKEN PHRASE HAS BEEN ISSUED TO YOU. THIS DOES NOT GRANT ACCESS,
+            IT GRANTS A CHANCE.
           </h1>
           <ul id="buttons01" class="buttons-component instance-1">
             <li>
@@ -371,7 +372,8 @@
             </li>
           </ul>
           <h1 id="text04" class="text-component instance-4">
-            THE PHRASE IS UNIQUE TO THIS SESSION AND WILL BE NEEDED FOR ACCESS TO THE ID GENERATOR.
+            THE PHRASE IS UNIQUE TO THIS SESSION AND WILL BE NEEDED FOR ACCESS
+            TO THE ID GENERATOR.
           </h1>
           <ul class="buttons-component instance-2">
             <li>
@@ -391,19 +393,29 @@
         createVisitorSession,
       } from "/js/services/visitor-session.js";
 
-      const stateMachine = await initializeStateMachine()
+      const stateMachine = await initializeStateMachine();
 
       const phrase = document.getElementById("phrase");
       phrase.textContent = stateMachine.getUniquePhrase();
 
+      let isProcessing = false;
       const proceedButton = document.getElementById("buttons02");
       proceedButton.addEventListener("click", async (e) => {
         e.preventDefault();
-        if (stateMachine.canTransitionTo(State.QUESTIONS)) {
-          await logMetric(METRICS_MAP.PHRASES_GENERATED);
-          stateMachine.increaseAttempts()
-          stateMachine.setQuestionsCooldownTimestamp()
-          stateMachine.transitionTo(State.QUESTIONS);
+
+        if (isProcessing === true) return;
+
+        isProcessing = true;
+
+        try {
+          if (stateMachine.canTransitionTo(State.QUESTIONS)) {
+            await logMetric(METRICS_MAP.PHRASES_GENERATED);
+            stateMachine.increaseAttempts();
+            stateMachine.setQuestionsCooldownTimestamp();
+            stateMachine.transitionTo(State.QUESTIONS);
+          }
+        } finally {
+          isProcessing = false;
         }
       });
     </script>
