@@ -202,6 +202,10 @@ export class stateMachineClass {
     this.persistInStorage();
   }
 
+  getAvailablePortals(){
+    return this.config[CONSTANTS_MAP.AVAILABLE_PORTALS]
+  }
+
   canTransitionTo(nextState) {
     return TRANSITIONS[this.currentState].includes(nextState);
   }

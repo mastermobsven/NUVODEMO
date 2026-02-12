@@ -25,8 +25,8 @@ export async function fetchConstants() {
   return constants;
 }
 
-export async function decreaseAvaiablePortals() {
-  const ref = doc(db, CONSTANTS_COLLECTION, CONSTANTS_MAP.AVAIABLE_PORTALS);
+export async function decreaseAvailablePortals() {
+  const ref = doc(db, CONSTANTS_COLLECTION, CONSTANTS_MAP.AVAILABLE_PORTALS);
 
   await updateDoc(ref, {
     ["value"]: increment(-1),
