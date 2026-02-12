@@ -84,7 +84,7 @@ export const CONSTANTS_MODEL = {
 
   QUESTION_PAGE_DURATION_SEC: {
     description: "Duration of questions page",
-    value: 30,
+    value: 3600,
   },
 
   MAX_QUESTIONS_PER_SESSION: {
