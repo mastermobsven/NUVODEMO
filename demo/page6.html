@@ -448,21 +448,30 @@
       </div>
     </div>
     <script type="module">
-      import { initializeStateMachine } from "./js/init.js";
-      import { State } from "./js/constants.js";
+  import { initializeStateMachine } from "./js/init.js";
+  import { State } from "./js/constants.js";
 
-      const stateMachine = await initializeStateMachine()
+  const stateMachine = await initializeStateMachine();
 
-      const asumeIdentity = document.getElementById("asume-identity");
-      asumeIdentity.addEventListener("click", (e) => {
-        e.preventDefault();
-        asumeIdentity.textContent = "status: RESERVED";
+  const asumeIdentity = document.getElementById("asume-identity");
 
-        setTimeout(() => {
-          stateMachine.setPhraseCooldownTimeStamp();
-          stateMachine.transitionTo(State.LIMIT_REACHED);
-        }, 3000);
-      });
-    </script>
+  let isProcessing = false;
+
+  asumeIdentity.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (isProcessing) return;
+    isProcessing = true;
+
+    asumeIdentity.textContent = "status: RESERVED";
+
+    setTimeout(() => {
+      stateMachine.setPhraseCooldownTimeStamp();
+      stateMachine.transitionTo(State.LIMIT_REACHED);
+      isProcessing = false;
+    }, 3000);
+  });
+</script>
+
   </body>
 </html>

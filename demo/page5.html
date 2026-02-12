@@ -390,7 +390,9 @@
           <h1 id="text03" class="text-component instance-3">
             <span class="p">not applicable.</span>
             <span class="p"
-              >this token phrase did not resolve to an identity. YOU MAY WAIT FOR THE COOL DOWN AND TRY AGAIN OR PROCEED TO THE TRANSFER PORTAL.</span
+              >this token phrase did not resolve to an identity. YOU MAY WAIT
+              FOR THE COOL DOWN AND TRY AGAIN OR PROCEED TO THE TRANSFER
+              PORTAL.</span
             >
           </h1>
           <ul id="buttons01" class="buttons-component instance-1">
@@ -415,34 +417,60 @@
     </div>
     <script type="module">
       import { initializeStateMachine } from "./js/init.js";
-      import {State, METRICS_MAP} from "./js/constants.js"
-      import {logMetric} from "./js/services/metrics.js"
-      import {decreaseAvailablePortals} from "./js/services/fetch-constants.js"
+      import { State, METRICS_MAP } from "./js/constants.js";
+      import { logMetric } from "./js/services/metrics.js";
+      import { decreaseAvailablePortals } from "./js/services/fetch-constants.js";
 
-      const stateMachine = await initializeStateMachine()
+      const stateMachine = await initializeStateMachine();
 
-      const returnButton = document.getElementById("return-button")
+      const returnButton = document.getElementById("return-button");
+      const enterToPortal = document.getElementById("enter-to-portal");
+
+      // ---- RETURN BUTTON LOCK ----
+      let isReturning = false;
+
       returnButton.addEventListener("click", (e) => {
-        e.preventDefault()
-        stateMachine.setPhraseCooldownTimeStamp();
-        stateMachine.transitionTo(State.LIMIT_REACHED)
-      })
+        e.preventDefault();
 
-      const enterToPortal = document.getElementById("enter-to-portal")
-      enterToPortal.addEventListener("click", async (e) => {
-        e.preventDefault()
+        if (isReturning) return;
+        isReturning = true;
 
-        await logMetric(METRICS_MAP.TRANSFER_CLAIMS)
-        
-        // avaiable portal
-        if(stateMachine.getAvailablePortals() > 0 && stateMachine.canTransitionTo(State.TRANSFER_PORTAL)){
-          await decreaseAvailablePortals()
-          stateMachine.transitionTo(State.TRANSFER_PORTAL)
-          return
+        try {
+          stateMachine.setPhraseCooldownTimeStamp();
+          stateMachine.transitionTo(State.LIMIT_REACHED);
+        } finally {
+          isReturning = false;
         }
-        // no avaiable portals
-        stateMachine.transitionTo(State.NO_TRANSFER_PORTAL)
-      })
+      });
+
+      // ---- ENTER TO PORTAL LOCK ----
+      let isEnteringPortal = false;
+
+      enterToPortal.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        if (isEnteringPortal) return;
+        isEnteringPortal = true;
+
+        try {
+          await logMetric(METRICS_MAP.TRANSFER_CLAIMS);
+
+          // available portal
+          if (
+            stateMachine.getAvailablePortals() > 0 &&
+            stateMachine.canTransitionTo(State.TRANSFER_PORTAL)
+          ) {
+            await decreaseAvailablePortals();
+            stateMachine.transitionTo(State.TRANSFER_PORTAL);
+            return;
+          }
+
+          // no available portals
+          stateMachine.transitionTo(State.NO_TRANSFER_PORTAL);
+        } finally {
+          isEnteringPortal = false;
+        }
+      });
     </script>
   </body>
 </html>

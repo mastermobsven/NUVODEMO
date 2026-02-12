@@ -648,7 +648,7 @@
     import { makeSelectable } from "./js/dom-control.js";
     import { storeVisitorFeedback } from "./js/services/visitor-session.js";
 
-    const stateMachine = await initializeStateMachine()
+    const stateMachine = await initializeStateMachine();
 
     const feedback = {
       feelings: [],
@@ -659,28 +659,30 @@
     // Feelings (multiple choice)
     makeSelectable("buttons01", true);
 
-    // Would try again (single choice)
-    makeSelectable("buttons03", false);
-
     const submitFeedback = document.getElementById("submit-feedback");
+    let isSubmitting = false;
     submitFeedback.addEventListener("click", async (e) => {
       e.preventDefault();
 
-      feedback.feelings = [
-        ...document.querySelectorAll("#buttons01 .selected"),
-      ].map((el) => el.textContent);
+      if (isSubmitting) return;
+      isSubmitting = true;
 
-      feedback.wouldRetry =
-        document.querySelector("#buttons03 .selected")?.textContent || null;
+      try {
+        feedback.feelings = [
+          ...document.querySelectorAll("#buttons01 .selected"),
+        ].map((el) => el.textContent);
 
-      feedback.systemIdea = document.getElementById("reply-box-1").value;
-      feedback.notes = document.getElementById("reply-box-2").value;
+        feedback.systemIdea = document.getElementById("reply-box-1").value;
+        feedback.notes = document.getElementById("reply-box-2").value;
 
-      console.log("FEEDBACK:", feedback);
+        console.log("FEEDBACK:", feedback);
 
-      if (stateMachine.canTransitionTo(State.DEMO_COMPLETED)) {
-        await storeVisitorFeedback(stateMachine.getUUID(), feedback)
-        stateMachine.transitionTo(State.DEMO_COMPLETED);
+        if (stateMachine.canTransitionTo(State.DEMO_COMPLETED)) {
+          await storeVisitorFeedback(stateMachine.getUUID(), feedback);
+          stateMachine.transitionTo(State.DEMO_COMPLETED);
+        }
+      } finally {
+        isSubmitting = false;
       }
     });
   </script>

@@ -388,9 +388,7 @@
           </ul>
           <ul id="buttons03" class="buttons-component instance-3">
             <li>
-              <a id="submit" href="#" class="n01" role="button"
-                >SUBMIT</a
-              >
+              <a id="submit" href="#" class="n01" role="button">SUBMIT</a>
             </li>
           </ul>
         </div>
@@ -398,33 +396,45 @@
     </div>
     <script type="module">
       import { initializeStateMachine } from "./js/init.js";
-      import {State, METRICS_MAP} from "./js/constants.js"
-      import {logMetric} from "./js/services/metrics.js"
+      import { State, METRICS_MAP } from "./js/constants.js";
+      import { logMetric } from "./js/services/metrics.js";
 
-      const stateMachine = await initializeStateMachine()
+      const stateMachine = await initializeStateMachine();
 
-      const phrase = document.getElementById("phrase")
-      phrase.textContent = stateMachine.getUniquePhrase()
+      const phrase = document.getElementById("phrase");
+      phrase.textContent = stateMachine.getUniquePhrase();
 
-      const submit = document.getElementById("submit")
+      const submit = document.getElementById("submit");
+      let isProcessing = false;
       submit.addEventListener("click", async (e) => {
-        e.preventDefault()
-        const random = Math.random()
+        e.preventDefault();
 
-        await logMetric(METRICS_MAP.PHRASE_SUBMISSIONS)
+        if (isProcessing) return;
+        isProcessing = true;
 
-        // success result
-        if(random <= stateMachine.getSuccessProbability() && stateMachine.canTransitionTo(State.SUCCESS)){
-          await logMetric(METRICS_MAP.SUCCESSES)
-          stateMachine.transitionTo(State.SUCCESS)
-          return
+        try {
+          const random = Math.random();
+
+          await logMetric(METRICS_MAP.PHRASE_SUBMISSIONS);
+
+          // success result
+          if (
+            random <= stateMachine.getSuccessProbability() &&
+            stateMachine.canTransitionTo(State.SUCCESS)
+          ) {
+            await logMetric(METRICS_MAP.SUCCESSES);
+            stateMachine.transitionTo(State.SUCCESS);
+            return;
+          }
+          // no success result
+          if (stateMachine.canTransitionTo(State.FAILURE)) {
+            await logMetric(METRICS_MAP.FAILURES);
+            stateMachine.transitionTo(State.FAILURE);
+          }
+        } finally {
+          isProcessing = false;
         }
-        // no success result
-        if(stateMachine.canTransitionTo(State.FAILURE)){
-          await logMetric(METRICS_MAP.FAILURES)
-          stateMachine.transitionTo(State.FAILURE)
-        }
-      })
+      });
     </script>
   </body>
 </html>
