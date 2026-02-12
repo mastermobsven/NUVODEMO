@@ -137,48 +137,6 @@ async function fetchFeedbackFromBackend() {
     return []
   }
   
-  const placeholderData = [
-    {
-      id: "e4c5f5a2-c2bc-4d63-b2d9-e2d875efd102",
-      demoCompleted: true,
-      feedback: {
-        feelings: ["CURIOUS", "FRUSTRATED"],
-        notes: "bla bla bla",
-        systemIdea: "Nothing",
-        wouldRetry: "NO",
-      },
-    },
-    {
-      id: "e4c5f5a2-c2bc-4d63-b2d9-e2d875efd102",
-      demoCompleted: true,
-      feedback: {
-        feelings: ["CURIOUS", "FRUSTRATED"],
-        notes: "bla bla",
-        systemIdea: "Nothing",
-        wouldRetry: "NO",
-      },
-    },
-    {
-      id: "e4c5f5a2-c2bc-4d63-b2d9-e2d875efd102",
-      demoCompleted: true,
-      feedback: {
-        feelings: ["CURIOUS", "FRUSTRATED"],
-        notes: "bla bla",
-        systemIdea: "Nothing",
-        wouldRetry: "NO",
-      },
-    },
-    {
-      id: "e4c5f5a2-c2bc-4d63-b2d9-e2d875efd102",
-      demoCompleted: true,
-      feedback: {
-        feelings: ["CURIOUS", "FRUSTRATED"],
-        notes: "bla bla",
-        systemIdea: "Nothing",
-        wouldRetry: "NO",
-      },
-    },
-  ];
 }
 
 function renderFeedbackList(items) {
@@ -214,10 +172,6 @@ function renderFeedbackList(items) {
         
         <label class="content-label">System Idea</label>
         <div class="feedback-text idea-text">"${item.feedback.systemIdea || "No ideas provided."}"</div>
-      </div>
-
-      <div class="feedback-meta">
-        <span>Would Retry: <strong>${item.feedback.wouldRetry}</strong></span>
       </div>
     `;
 
