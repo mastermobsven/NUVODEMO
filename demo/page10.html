@@ -59,11 +59,11 @@
         margin-right: var(--margin-right);
         --margin-left: 0;
         --margin-right: auto;
-        color: #f0e6e6;
+        color: #030303;
         font-family: "Bebas Neue", sans-serif;
         letter-spacing: 0.325rem;
         width: calc(100% + 0.325rem);
-        font-size: 1.5em;
+        font-size: 2em;
         line-height: 1.5;
         font-weight: 400;
       }
@@ -87,7 +87,7 @@
         margin-right: var(--margin-right);
         --margin-left: 0;
         --margin-right: auto;
-        color: #f0e6e6;
+        color: #030303;
         font-family: "Bebas Neue", sans-serif;
         letter-spacing: 0.325rem;
         width: calc(100% + 0.325rem);
@@ -115,11 +115,11 @@
         margin-right: var(--margin-right);
         --margin-left: 0;
         --margin-right: auto;
-        color: #f0e6e6;
+        color: #030303;
         font-family: "Bebas Neue", sans-serif;
         letter-spacing: 0.325rem;
         width: calc(100% + 0.325rem);
-        font-size: 1.5em;
+        font-size: 2em;
         line-height: 1.5;
         font-weight: 400;
       }
@@ -143,11 +143,11 @@
         margin-right: var(--margin-right);
         --margin-left: 0;
         --margin-right: auto;
-        color: #f0e6e6;
+        color: #030303;
         font-family: "Bebas Neue", sans-serif;
         letter-spacing: 0.325rem;
         width: calc(100% + 0.325rem);
-        font-size: 1.5em;
+        font-size: 2em;
         line-height: 1.5;
         font-weight: 400;
       }
@@ -600,10 +600,17 @@
               HOW DID THIS EXPERIENCE FEEL?<br />select any THAT APPLY.
             </span>
           </h1>
-          <ul id="buttons01" class="buttons-component instance-1">
+          <ul id="select01" class="buttons-component instance-1">
             <li>
               <a href="#" class="n01" role="group"
                 >CONFUSSED INTRIGUED CURIOUS</a
+              >
+            </li>
+          </ul>
+          <ul id="select02" class="buttons-component instance-1">
+            <li>
+              <a href="#" class="n01" role="group"
+                >FRUSTRATED SKEPTICAL INDIFFERENT</a
               >
             </li>
           </ul>
@@ -618,14 +625,14 @@
             </li>
           </ul> -->
           <h1 id="text04" class="text-component instance-4">
-            WHAT DO YOU THINK THE SYSTEM IS?
+            WHAT DO YOU THINK THE SYSTEM MIGHT BE?
           </h1>
           <ul id="buttons04" class="buttons-component instance-4">
             <li>
               <textarea id="reply-box-1" class="reply-box"></textarea>
             </li>
           </ul>
-          <h1 id="text01" class="text-component instance-1">optional notes.</h1>
+          <h1 id="text01" class="text-component instance-1">optional COMMENTS.</h1>
           <ul id="buttons05" class="buttons-component instance-5">
             <li>
               <textarea id="reply-box-2" class="reply-box"></textarea>
@@ -633,8 +640,8 @@
           </ul>
           <ul id="buttons02" class="buttons-component instance-2">
             <li>
-              <a id="submit-feedback" href="#" class="n01" role="button"
-                >submit</a
+              <a id="submit-feedback" href="#" class="n01" role="button" style="margin-top:10px"
+                >send</a
               >
             </li>
           </ul>
@@ -657,7 +664,8 @@
     };
 
     // Feelings (multiple choice)
-    makeSelectable("buttons01", true);
+    makeSelectable("select01", true);
+    makeSelectable("select02", true);
 
     const submitFeedback = document.getElementById("submit-feedback");
     let isSubmitting = false;
@@ -669,7 +677,8 @@
 
       try {
         feedback.feelings = [
-          ...document.querySelectorAll("#buttons01 .selected"),
+          ...document.querySelectorAll("#select01 .selected"),
+          ...document.querySelectorAll("#select02 .selected")
         ].map((el) => el.textContent);
 
         feedback.systemIdea = document.getElementById("reply-box-1").value;
