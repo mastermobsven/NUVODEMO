@@ -71,7 +71,8 @@ export class stateMachineClass {
     }
 
     this.persistInStorage();
-    this.validateCurrentRoute();
+    //this.validateCurrentRoute();
+    this.showContent()
 
     // initialize successProbability
     if (successProbability != null) {

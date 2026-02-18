@@ -79,7 +79,7 @@ body::before {
     transform: scale(1);
     width: 100vw;
     z-index: 0;
-    background-image: linear-gradient(to top, rgba(0,0,0,0.753), rgba(0,0,0,0.753)), url('../images/bg.jpg');
+    background-image: linear-gradient(to top, rgba(231, 245, 228, 0.753), rgba(231, 245, 228, 0.753)), url('../images/bg.jpg');
     background-position: 0% 0%, center;
     background-repeat: repeat, repeat;
     background-size: auto, cover;
